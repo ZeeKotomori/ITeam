@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('/signUp');
+});
+
+Route::get('/login', function () {
+    return view('/logIn');
+});
+
+Route::controller(UserController::class)->group(function () {
+    Route::get('/signup','signUp')->name('signUp');
+    Route::get('/logIn','logIn')->name('logIn');
+    // Route::get('/admin/index/{users:roles}','index')->name('index');
+    Route::get('/admin/product/{users:roles}','product')->name('admin.product');
 });
