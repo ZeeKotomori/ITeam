@@ -14,7 +14,7 @@ export default {
             'line': '#415B82',
             'text': '#FAFAFA',
             'link': '#6A6AFF',
-            'form': 'rgb(217, 217, 217, 0.1)',
+            'form': 'rgb(217, 217, 217, 0.15)',
         },
         screens: {
             'sm': '430px',
@@ -27,7 +27,7 @@ export default {
             'manrope': ['Manrope', 'sans-serif'],
         },
         opacity: {
-            '10': '.10',
+            '10': '.1',
         },
     },
   },

@@ -8,40 +8,42 @@
     @vite('resources/css/app.css')
     <title>Sign-Up</title>
 </head>
-<body class="w-screen bg-gradient-to-br from-gradient-dark to-gradient-light    ">
-    <div class="h-screen w-screen flex flex-col bg-cover bg-no-repeat p-10 align-center " style="background-image: url('svg/background style.svg')">
-        <div class="title">
-            <img src="svg/title.svg" alt="">
-        </div>
-        <div class="flex h-screen items-center justify-center">
-            <div class="form flex flex-col md:flex-row md:bg-form md:relative p-10 max-w-xl rounded-xl">
-                <div class="flex pt-16 md:pt-0 md:absolute md:left-0 md:p-5 md:top-5">
-                    <img class="w-16 md:w-12" src="svg/Vector.svg" alt="">
+<body class="bg-gradient-to-br from-gradient-dark to-gradient-light font-manrope">
+    <div class="flex flex-col bg-cover bg-no-repeat p-10 align-center min-h-screen max-h-full" style="background-image: url('svg/background style.svg')">
+    <div class="opacity-0 hidden md:opacity-100 md:pt-4 md:pl-4 md:block md:mb-10 ">
+        <img class="md:w-36" src="svg/title.svg" alt="Title ITeam">
+    </div>
+        <div class="md:justify-center md:flex">
+            <div class="form flex flex-col rounded-xl md:bg-form md:relative md:p-8">
+                <div class="flex flex-col items-center md:pt-0 md:left-0 md:p-5 md:top-5">
+                    <img class="w-16 mb-4 md:w-12" src="svg/Vector.svg" alt="Vector">
+                    <span class="text-text text-3xl font-bold">Sign Up</span>
                 </div>
-                <form class="text-text flex md:px-10 flex-col justify-center gap-y-2 pt-14" action="">
+                <form class="text-text flex flex-col justify-center gap-y-2 pt-8 md:px-10" action="">
                     <div class="flex flex-col pt-4 md:pt-3 md:w-80">
-                        <label class="font-manrope" for="email">Email</label>
-                        <Input class="bg-transparent border-b-2 border-form outline-0 w-full" type="text" name="email" id="email"></Input>
+                        <label for="email">Email</label>
+                        <Input class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" type="text" name="email" id="email" autocomplete="off"></Input>
                     </div>
                     <div class="sm:flex flex-col pt-4 md:pt-3">
-                        <label class="font-manrope" for="password">Password</label>
-                        <Input class="bg-transparent border-b-2 border-form outline-0 w-full" type="password" name="password" id="password"></Input>
+                        <label for="password">Password</label>
+                        <Input class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" type="password" name="password" id="password" autocomplete="off"></Input>
                     </div>
                     <div class="sm:flex flex-col pt-4 md:pt-3">
-                        <label class="font-manrope" for="gender">Gender</label>
-                        <select class="bg-transparent border-b-2 border-form outline-0 w-full" name="jenis_kelamin" id="jenis_kelamin">
+                        <label for="jenis_kelamin">Gender</label>
+                        <select class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" name="jenis_kelamin" id="jenis_kelamin" autocomplete="off">
+                            <option value="" default hidden></option>
                             <option class="bg-primary" value="Pria">Pria</option>
                             <option class="bg-primary" value="Wanita">Wanita</option>
                             <option class="bg-primary" value="Tidak ingin memberi tahu">Tidak ingin memberi tahu</option>
                         </select>
                     </div>
                     <div class="sm:flex flex-col pt-4 md:pt-3">
-                        <label class="font-manrope" for="no_telp">Phone</label>
-                        <Input class="bg-transparent border-b-2 border-form outline-0 w-full" type="text" name="no_telp" id="no_telp"></Input>
+                        <label for="no_telp">Phone</label>
+                        <Input class="py-2 bg-transparent border-b-2 border-form outline-0 w-full no-inner-spin-button" type="number" name="no_telp" id="no_telp" autocomplete="off"></Input>
                     </div>
                     <div class="flex justify-between pt-8">
-                        <button class="bg-line p-3 rounded-xl w-24" type="submit">Sign Up</button>
-                        <span class="w-32 text-right">have an account? <a class="text-link" href="login">login</a></span>
+                        <button class="bg-line rounded-xl w-24 h-10 shadow-sm" type="submit">Sign Up</button>
+                        <span class="w-32 text-sm text-right">have an account? <a class="text-link underline" href="login">login</a></span>
                         </div>
                     </form>
                 </div>
