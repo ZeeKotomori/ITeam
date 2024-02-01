@@ -19,7 +19,8 @@
                     <img class="w-16 mb-4 md:w-12" src="svg/Vector.svg" alt="Vector">
                     <span class="text-text text-3xl font-bold">Sign Up</span>
                 </div>
-                <form class="text-text flex flex-col justify-center gap-y-2 pt-8 md:px-10" action="">
+                <form class="text-text flex flex-col justify-center gap-y-2 pt-8 md:px-10" action="{{ route('signUp') }}">
+                    @csrf
                     <div class="flex flex-col pt-4 md:pt-3 md:w-80">
                         <label for="email">Email</label>
                         <Input class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" type="text" name="email" id="email" autocomplete="off"></Input>
@@ -43,7 +44,7 @@
                     </div>
                     <div class="flex justify-between pt-8">
                         <button class="bg-line rounded-xl w-24 h-10 shadow-sm" type="submit">Sign Up</button>
-                        <span class="w-32 text-sm text-right">have an account? <a class="text-link underline" href="login">login</a></span>
+                        <span class="w-32 text-sm text-right">have an account? <a class="text-link underline" href="/login">login</a></span>
                         </div>
                     </form>
                 </div>
