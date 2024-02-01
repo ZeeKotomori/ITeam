@@ -18,10 +18,6 @@ Route::get('/', function () {
     return view('/signUp');
 });
 
-Route::get('/login', function () {
-    return view('/logIn');
-});
-
 Route::controller(UserController::class)->group(function () {
     Route::get('/signup','signUp')->name('signUp');
     Route::get('/logIn','logIn')->name('logIn');
