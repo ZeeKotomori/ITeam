@@ -8,17 +8,22 @@ export default {
   theme: {
     extend: {
         colors: {
-            'gradient-dark': '#000614',
+            'gradient-dark': '#070a1b',
             'gradient-light': '#002A8D',
             'primary': '#144272',
+            'secondary': '#205295',
             'line': '#415B82',
             'text': '#FAFAFA',
             'link': '#6A6AFF',
             'form': 'rgb(217, 217, 217, 0.15)',
+            'navbar': 'rgb(2, 15, 30, 0.4)',
         },
         screens: {
             'sm': '430px',
-            'md': '760px',
+            'md': '768px',
+            'md-max': {'max': '768px'},
+            'hb': '1150px',
+            'hb-max': {'max': '1150px'},
             'lg': '1366px',
             'xl': '1920px',
             '2xl': '2560px',
@@ -28,6 +33,9 @@ export default {
         },
         opacity: {
             '10': '.1',
+        },
+        boxShadow: {
+          'blue': '0px -3px 30px rgba(115, 186, 255, 0.4)',
         },
     },
   },
