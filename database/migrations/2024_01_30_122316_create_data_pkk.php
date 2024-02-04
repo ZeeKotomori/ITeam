@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('user', function (Blueprint $table) {
             $table->id();
             $table->string('email', 40)->unique()->min(10);
-            $table->string('password', 25)->min(8);
+            $table->string('password')->min(8);
             $table->string('nama', 50);
             $table->enum('jenis_kelamin', ['Pria', 'Wanita', 'tidak ingin memberi tahu'])->default('tidak ingin memberi tahu');
             $table->string('no_telp', 15);
