@@ -19,18 +19,33 @@
                     <img class="w-16 mb-4 md:w-12" src="svg/Vector.svg" alt="Vector">
                     <span class="text-text text-3xl font-bold">Sign Up</span>
                 </div>
-                <form class="text-text flex flex-col justify-center gap-y-2 pt-8 md:px-10" action="{{ route('signUp') }}">
+                <form class="text-text flex flex-col justify-center gap-y-2 pt-8 md:px-10" action="{{ route('createData') }}" method="POST">
                     @csrf
                     <div class="flex flex-col pt-4 md:pt-3 md:w-80">
-                        <label for="email">Email</label>
+                        <label for="email">Email @error('email')
+                            <div class="text-red-500">{{ $message }}</div>
+                            @enderror
+                        </label>
                         <Input class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" type="text" name="email" id="email" autocomplete="off"></Input>
                     </div>
+                    <div class="flex flex-col pt-4 md:pt-3 md:w-80">
+                        <label for="nama">Nama @error('nama')
+                            <div class="text-red-500">{{ $message }}</div>
+                            @enderror
+                        </label>
+                        <Input class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" type="text" name="nama" id="nama" autocomplete="off"></Input>
+                    </div>
                     <div class="sm:flex flex-col pt-4 md:pt-3">
-                        <label for="password">Password</label>
+                        <label for="password">Password @error('password')
+                            <div class="text-red-500">{{ $message }}</div>
+                            @enderror
+                        </label>
                         <Input class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" type="password" name="password" id="password" autocomplete="off"></Input>
                     </div>
                     <div class="sm:flex flex-col pt-4 md:pt-3">
-                        <label for="jenis_kelamin">Gender</label>
+                        <label for="jenis_kelamin">Gender @error('jenis_kelamin')
+                            <div class="text-red-500">{{ $message }}</div>
+                            @enderror</label>
                         <select class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" name="jenis_kelamin" id="jenis_kelamin" autocomplete="off">
                             <option value="" default hidden></option>
                             <option class="bg-primary" value="Pria">Pria</option>
@@ -39,12 +54,14 @@
                         </select>
                     </div>
                     <div class="sm:flex flex-col pt-4 md:pt-3">
-                        <label for="no_telp">Phone</label>
+                        <label for="no_telp">Phone @error('no_telp')
+                            <div class="text-red-500">{{ $message }}</div>
+                            @enderror</label>
                         <Input class="py-2 bg-transparent border-b-2 border-form outline-0 w-full no-inner-spin-button" type="number" name="no_telp" id="no_telp" autocomplete="off"></Input>
                     </div>
                     <div class="flex justify-between pt-8">
                         <button class="bg-line rounded-xl w-24 h-10 shadow-sm" type="submit">Sign Up</button>
-                        <span class="w-32 text-sm text-right">have an account? <a class="text-link underline" href="/login">login</a></span>
+                        <span class="w-32 text-sm text-right">have an account? <a class="text-link underline" href="/logIn">login</a></span>
                         </div>
                     </form>
                 </div>
