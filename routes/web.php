@@ -15,12 +15,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('/signUp');
+    return view('welcome');
 });
 
+// Route::get('/signUp', function () {
+//     return view('signUp');
+// });
+
 Route::controller(UserController::class)->group(function () {
-    Route::get('/signup','signUp')->name('signUp');
+    Route::get('/signUp','signUp')->name('signUp');
     Route::get('/logIn','logIn')->name('logIn');
-    // Route::get('/admin/index/{users:roles}','index')->name('index');
+    Route::post('/createData','createData')->name('createData');
+    Route::post('/userData','userData')->name('userData');
+    Route::get('/admin/index/{users:roles}','index')->name('index');
     Route::get('/admin/product/{users:roles}','product')->name('admin.product');
 });
