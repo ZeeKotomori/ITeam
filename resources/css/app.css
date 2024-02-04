@@ -8,4 +8,34 @@
         -webkit-appearance: none;
         appearance: none;
     }
+
+    .shade-l {
+        background: linear-gradient(to right, rgba(240,240,240,0), #fff);
+    }
+
+    .shade-r {
+        background: linear-gradient(to left, rgba(240,240,240,0), #fff);
+    }
+
+    .shade-c {
+        background: linear-gradient(to left, rgba(240,240,240,0), #fff, rgba(240,240,240,0));
+    }
+
+    .text-shadow-white {
+        text-shadow: 0px 0px 20px #ffffff;
+    }
+
+    .pulse {
+        animation: pulse 1s;
+        box-shadow: 0 0 0 2em transparent;
+    }
+
+    .scrolling {
+        scroll-behavior: smooth;
+    }
+
+    /* Animation */
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgb(29 78 216); }
+    }
 }
