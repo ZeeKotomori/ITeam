@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,15 +19,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/signUp', function () {
-//     return view('signUp');
-// });
-
-Route::controller(UserController::class)->group(function () {
+Route::controller(AuthController::class)->group(function(){
     Route::get('/signUp','signUp')->name('signUp');
     Route::get('/logIn','logIn')->name('logIn');
     Route::post('/createData','createData')->name('createData');
     Route::post('/userData','userData')->name('userData');
-    Route::get('/admin/index/{users:roles}','index')->name('index');
-    Route::get('/admin/product/{users:roles}','product')->name('admin.product');
+    Route::get('/logOut','logOut')->name('logOut');
+});
+Route::group(['prefix' => 'user','middleware' => ['auth'], 'as', 'user'], function(){
+    Route::get('/index',[UserController::class,'index'])->name('user.index');
 });
