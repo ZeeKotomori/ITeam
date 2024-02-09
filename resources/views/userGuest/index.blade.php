@@ -128,18 +128,18 @@
             <div class="h-1 opacity-6 shade-r w-28 my-6"></div>
             <div class="flex gap-x-2 my-8">
                 >
-                <img src="svg/fb.svg" alt="Facebook Logo">
+                <img src={{ asset("svg/fb.svg") }} alt="Facebook Logo">
                 <p class="pl-2">ITeam Official</p>
             </div>
             <div class="flex gap-x-2 my-8">
                 >
-                <img src="svg/mail.svg" alt="Facebook Logo">
+                <img src={{ asset("svg/mail.svg") }} alt="Mail Logo">
                 <p class="pl-2">ITeam@gmail.com</p>
             </div>
             <div class="flex gap-x-2 my-8">
                 >
-                <img src="svg/telp.svg" alt="Facebook Logo">
-                <p class="pl-2">+62 8870 7860</p>
+                <img src={{ asset("svg/telp.svg") }} alt="Phone Logo">
+                <p class="pl-2">+62 8870 7860 072</p>
             </div>
         </div>
     </div>
