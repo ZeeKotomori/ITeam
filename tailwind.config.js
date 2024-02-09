@@ -17,6 +17,7 @@ export default {
             'link': '#6A6AFF',
             'form': 'rgb(217, 217, 217, 0.15)',
             'navbar': 'rgb(2, 15, 30, 0.4)',
+            'evens': 'rgb(20, 66, 114, 0.2)'
         },
         screens: {
             'sm': '430px',
@@ -36,6 +37,12 @@ export default {
         },
         boxShadow: {
           'blue': '0px -3px 30px rgba(115, 186, 255, 0.4)',
+        },
+        dropShadow: {
+          'link': '0 2px 5px #6A6AFFFF'
+        },
+        height: {
+          'dashboard': 'calc(-4rem + 100vh)'
         },
     },
   },
