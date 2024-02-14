@@ -27,5 +27,7 @@ Route::controller(AuthController::class)->group(function(){
     Route::get('/logOut','logOut')->name('logOut');
 });
 Route::group(['prefix' => 'user','middleware' => ['auth'], 'as', 'user'], function(){
+    Route::get('/dashboard',[UserController::class,'dashboard'])->name('user.dashboard');
     Route::get('/index',[UserController::class,'index'])->name('user.index');
+    Route::get('/delete/{user:id}',[UserController::class,'delete'])->name('user.delete');
 });
