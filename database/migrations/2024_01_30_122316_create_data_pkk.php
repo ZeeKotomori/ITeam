@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nama', 50);
             $table->enum('jenis_kelamin', ['Pria', 'Wanita', 'tidak ingin memberi tahu'])->default('tidak ingin memberi tahu');
             $table->string('no_telp', 15);
-            $table->enum('role', ['admin', 'user', 'guest'])->default('guest');
+            $table->enum('role', ['admin', 'user'])->default('user');
             $table->timestamps();
         });
 
