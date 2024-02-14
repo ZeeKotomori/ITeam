@@ -21,6 +21,7 @@ export default {
         },
         screens: {
             'sm': '430px',
+            'sm-max': {'max': '430px'},
             'md': '768px',
             'md-max': {'max': '768px'},
             'hb': '1150px',
