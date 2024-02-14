@@ -12,7 +12,7 @@
     <div class="max-w-[95%] m-auto flex">
         <aside class="hamberg bg-gradient-to-t from-primary to-link flex flex-col justify-start w-72 h-dashboard my-8 rounded-lg
           hb-max:fixed hb-max:w-60 hb-max:-translate-x-80 z-10 duration-300">
-            <img src="svg/title.svg" class="mx-12 mt-6 mb-3" alt="ITeam Logo">
+            <img src="{{asset("svg/title.svg")}}" class="mx-12 mt-6 mb-3" alt="ITeam Logo">
             <div class="h-0.5 shade-c opacity-15 my-4"></div>
             <ul>
                 <form class="flex items-center justify-center hb:hidden" action="">
@@ -32,9 +32,7 @@
                     <span class="font-semibold text-lg py-4">Add Product</span>
                 </a>
             </ul>
-            <a href="" class="bg-link rounded-lg mx-3 mb-3 mt-auto p-2 flex justify-center text-text font-semibold">
-                <p>Log Out</p>
-            </a>
+            <a href="{{ route( "logOut" )}}" class="bg-link rounded-lg mx-3 mb-3 mt-auto p-2 flex justify-center text-text font-semibold"><p>Log Out</p></a>
         </aside>
         <div class="text-text h-dashboard ml-8 my-8 w-full
           hb-max:ml-0">
@@ -93,43 +91,27 @@
                             <tr class="even:bg-evens">
                                 <th class="p-4">Email</th>
                                 <th class="p-4">Name</th>
-                                <th class="p-4">Jus Kiding</th>
-                                <th class="p-4">Telp. Number</th>
+                                <th class="p-4">Gender</th>
+                                <th class="p-4">Phone Number</th>
                                 <th class="p-4">Action</th>
                             </tr>
+                            @foreach ( $user as $data )
                             <tr class="even:bg-evens">
-                                <td class="p-4">z@gmail.com</td>
-                                <td class="p-4">Zekree</td>
-                                <td class="p-4">Pria</td>
-                                <td class="p-4">09782436798</td>
+                                <td class="p-4">{{ $data->email }}</td>
+                                <td class="p-4">{{ $data->nama }}</td>
+                                <td class="p-4">{{ $data->jenis_kelamin }}</td>
+                                <td class="p-4">{{ $data->no_telp }}</td>
                                 <td class="p-4">
-                                    <button type="submit">
-                                        <i class="m-auto text-text bg-red-600 w-8 h-8 p-1 rounded-md" data-feather="trash"></i>
-                                    </button>
+                                    <form class="flex" action="{{ route('user.delete' , $data->id)}}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit">
+                                            <i class="m-auto text-text bg-primary w-8 h-8 p-1 rounded-md drop-shadow-2xl" data-feather="trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
-                            <tr class="even:bg-evens">
-                                <td class="p-4">x@gmail.com</td>
-                                <td class="p-4">Temen Virgi</td>
-                                <td class="p-4">Wanita</td>
-                                <td class="p-4">089426986988</td>
-                                <td class="p-4">
-                                    <button type="submit">
-                                        <i class="m-auto text-text bg-red-600 w-8 h-8 p-1 rounded-md" data-feather="trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="even:bg-evens">
-                                <td class="p-4">u@gmail.com</td>
-                                <td class="p-4">Mantan Zekree</td>
-                                <td class="p-4">Wanita</td>
-                                <td class="p-4">98685247398</td>
-                                <td class="p-4">
-                                    <button type="submit">
-                                        <i class="m-auto text-text bg-red-600 w-8 h-8 p-1 rounded-md" data-feather="trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            @endforeach
                         </table>
                     </div>
                 </div>
