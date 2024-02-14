@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function login(Request $request) {
-        $user = User::all();
-        return view('logIn', ['user' => $user]);
+        return view('logIn');
     }
 
     public function userData(Request $request){
@@ -25,7 +24,14 @@ class AuthController extends Controller
         ];
 
         if(Auth::attempt($data)){
-            return redirect()->route('user.index');
+            $role = Auth::user()->role;
+            if($role=='admin'){
+                return redirect()->route('user.dashboard');
+            }else if($role=='user'){
+                return redirect()->route('user.index');
+            }else{
+                return redirect()->route('user.index');
+            }
         }else{
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
@@ -57,7 +63,7 @@ class AuthController extends Controller
         $validatedData['password'] = $hashedPassword;
 
         User::create($validatedData);
-        return redirect('/logIn')->with('success', 'Account created successfully. Please log in.');
+        return redirect('/logIn');
     }
     public function logOut(Request $request){
         Auth::logout();
