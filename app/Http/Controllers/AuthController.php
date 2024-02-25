@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function login(Request $request) {
+    public function login(Request $request){
         return view('logIn');
     }
 
@@ -26,7 +26,7 @@ class AuthController extends Controller
         if(Auth::attempt($data)){
             $role = Auth::user()->role;
             if($role=='admin'){
-                return redirect()->route('user.dashboard');
+                return redirect()->route('admin.dashboard');
             }else if($role=='user'){
                 return redirect()->route('user.index');
             }else{
@@ -42,8 +42,7 @@ class AuthController extends Controller
     public function signUp(){
         return view('signUp');
     }
-    public function createData(Request $request)
-    {
+    public function createData(Request $request){
         $validatedData = $request->validate([
             'email' => 'required|string|max:255|min:11|unique:user,email',
             'password' => 'required|string|min:8',
