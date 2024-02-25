@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,8 +27,15 @@ Route::controller(AuthController::class)->group(function(){
     Route::post('/userData','userData')->name('userData');
     Route::get('/logOut','logOut')->name('logOut');
 });
+
 Route::group(['prefix' => 'user','middleware' => ['auth'], 'as', 'user'], function(){
-    Route::get('/dashboard',[UserController::class,'dashboard'])->name('user.dashboard');
     Route::get('/index',[UserController::class,'index'])->name('user.index');
-    Route::get('/delete/{user:id}',[UserController::class,'delete'])->name('user.delete');
+});
+
+Route::group(['prefix' => 'admin','middleware' => ['auth'], 'as', 'admin'], function(){
+    Route::get('/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
+    Route::get('/listProduct',[AdminController::class,'listProduct'])->name('admin.listProduct');
+    Route::get('/delete/{user:id}',[AdminController::class,'delete'])->name('admin.delete');
+    Route::get('/addProduct',[AdminController::class,'addProduct'])->name('admin.addProduct');
+    Route::post('/upImg',[AdminController::class,'upImg'])->name('admin.upImg');
 });
