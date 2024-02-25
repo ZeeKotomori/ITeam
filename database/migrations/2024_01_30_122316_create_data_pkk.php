@@ -25,7 +25,9 @@ return new class extends Migration
         Schema::create('produk', function (Blueprint $table) {
             $table->id();
             $table->string('nama', 50);
-            $table->binary('image');
+            $table->string('tipeimage', 20);
+            $table->string('image_path');
+            $table->string('desk');
             $table->string('link', 15);
             $table->timestamps();
         });
@@ -55,5 +57,6 @@ return new class extends Migration
         Schema::dropIfExists('produk');
         Schema::dropIfExists('likes');
         Schema::dropIfExists('komentar');
+        Schema::dropIfExists('image');
     }
 };

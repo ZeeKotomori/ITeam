@@ -6,10 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Produk;
 use App\Models\Likes;
-use App\Models\Image;
+use Intervention\Image\Facades\Image;
 use App\Models\Komentar;
+// use Intervention\Image\ImageManager;
 
 class AdminController extends Controller{
+    public function edit(){
+
+    }
     public function dashboard(Request $request){
     $countLikes = Likes::count();
     $produk = Produk::count();
@@ -39,11 +43,9 @@ class AdminController extends Controller{
     }
     public function listProduct(){
         $produk = Produk::all();
-        $imageProduk = Image::all();
         return response()->view('admin.productList',
         [
-            'produk' => $produk,
-            'image' => $imageProduk
+            'produk' => $produk
         ])->header('Cache-Control', 'no-cache, no-store, must-revalidate')->header('Pragma', 'no-cache')->header('Expires', '0');
     }
     public function upImg(Request $request){
@@ -53,18 +55,25 @@ class AdminController extends Controller{
             'desk'  => 'required',
             'link'  => 'required'
         ]);
-        $slash = 'post-image';
+
         $nama = $request->nama;
+        $desk = $request->desk;
+        $link = $request->link;
+
         if ($request->hasFile('image')) {
             $gambar = $request->file('image');
             $tipegambar = $gambar->getClientMimeType();
-            $imageName = $slash.'/'.$nama.'.'.$gambar->extension();
+            $imageName = 'post-images/'.$nama.'.'.$gambar->extension();
+            // $gambar = Image::make($gambar)->encode('jpg', 50);
             $gambar->move(public_path('storage/post-images'), $imageName);
 
-            $image = new Image();
-            $image->tipeimage = $tipegambar;
-            $image->image_path = $imageName;
-            $image->save();
+            $produk = new Produk();
+            $produk->nama = $nama;
+            $produk->desk = $desk;
+            $produk->link = $link;
+            $produk->tipeimage = $tipegambar;
+            $produk->image_path = $imageName;
+            $produk->save();
 
             return back();
         } else {

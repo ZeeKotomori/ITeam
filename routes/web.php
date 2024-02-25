@@ -33,6 +33,7 @@ Route::group(['prefix' => 'user','middleware' => ['auth'], 'as', 'user'], functi
 });
 
 Route::group(['prefix' => 'admin','middleware' => ['auth'], 'as', 'admin'], function(){
+    Route::get('/edit/{produk:id}',[AdminController::class,'edit'])->name('admin.edit');
     Route::get('/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
     Route::get('/listProduct',[AdminController::class,'listProduct'])->name('admin.listProduct');
     Route::get('/delete/{user:id}',[AdminController::class,'delete'])->name('admin.delete');

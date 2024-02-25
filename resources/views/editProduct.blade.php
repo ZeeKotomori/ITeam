@@ -10,14 +10,11 @@
 </head>
 <body class="bg-gradient-dark">
     <div class="max-w-[95%] m-auto flex">
-        <div class="text-text hb:h-dashboard my-8 w-full h-full
-          hb-max:ml-0">
+        <div class="text-text hb:h-dashboard my-8 w-full h-full hb-max:ml-0">
             <a href=""><i data-feather="arrow-left"></i></a>
             <div class="w-[50%] h-fit mt-[2%] mx-auto hb-max:w-full md-max:mt-[5%]">
-                <form class="grid grid-cols-1 grid-rows-[auto_42px_auto_auto_auto] gap-4 gap-x-12  rounded-lg py-8 h-fit
-                  md-max:grid-cols-1 md-max:grid-rows-[auto_42px_auto_auto_auto] md-max:h-fit" action="">
-                    <div class="grid order-1 place-content-center row-span-1 h-56 bg-form rounded-md
-                      md-max:order-1 md-max:row-span-1 md-max:h-56">
+                <form class="grid grid-cols-1 grid-rows-[auto_42px_auto_auto_auto] gap-4 gap-x-12  rounded-lg py-8 h-fit md-max:grid-cols-1 md-max:grid-rows-[auto_42px_auto_auto_auto] md-max:h-fit" action="">
+                    <div class="grid order-1 place-content-center row-span-1 h-56 bg-form rounded-md md-max:order-1 md-max:row-span-1 md-max:h-56">
                         <input class="text-transparent file:w-full file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-link file:text-text file:hover:bg-indigo-600/70 file:hover:cursor-pointer" type="file" id="files">
                         <label class="cursor-pointer text-center mt-2" for="files" id="imgUpload">Tidak ada file yang dipilih</label>
                     </div>
@@ -51,7 +48,7 @@
                 imgUpload.innerHTML = "Tidak ada file yang dipilih";
             } else {
                 let Spliter = files.value.split('\\');
-                imgUpload.innerHTML = Spliter[Spliter.length - 1];               
+                imgUpload.innerHTML = Spliter[Spliter.length - 1];
             }
         });
     </script>

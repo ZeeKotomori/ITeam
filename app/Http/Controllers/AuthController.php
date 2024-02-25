@@ -48,7 +48,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
             'nama' => 'required|string|min:3',
             'jenis_kelamin' => 'required|string',
-            'no_telp' => 'required|string|max:255|min:12',
+            'no_telp' => 'required|string|max:255|min:12|max:14',
         ],[
             "email.required" => "Email must be filled in",
             "password.required" => "Password must be filled in",

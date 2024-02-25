@@ -19,7 +19,7 @@
                     <input class="w-2/3 p-2 bg-transparent border-2 rounded-md outline-none" placeholder="Search here" type="search" id="search">
                     <button class="bg-link rounded-md ml-4 w-9 h-9" type="submit"><i class="w-9 text-text" data-feather="search"></i></button>
                 </form>
-                <a href="/" class="hover:bg-secondary rounded-lg m-3 flex items-center text-slate-300 hover:text-text opacity-60 hover:opacity-100 duration-300">
+                <a href="{{ route("admin.dashboard") }}" class="hover:bg-secondary rounded-lg m-3 flex items-center text-slate-300 hover:text-text opacity-60 hover:opacity-100 duration-300">
                     <i data-feather="trending-up" class="m-4"></i>
                     <span class="font-semibold text-lg py-4">Dashboard</span>
                 </a>
@@ -27,7 +27,7 @@
                     <i data-feather="shopping-bag" class="m-4"></i>
                     <span class="font-semibold text-lg py-4">Product List</span>
                 </a>
-                <a href="/add" class="hover:bg-secondary rounded-lg m-3 flex items-center text-slate-300 hover:text-text opacity-60 hover:opacity-100 duration-300">
+                <a href="{{ route("admin.addProduct") }}" class="hover:bg-secondary rounded-lg m-3 flex items-center text-slate-300 hover:text-text opacity-60 hover:opacity-100 duration-300">
                     <i data-feather="upload" class="m-4"></i>
                     <span class="font-semibold text-lg py-4">Add Product</span>
                 </a>
@@ -60,26 +60,26 @@
                         <h3 class="font-semibold text-xl">Product List</h3>
                     </div>
                     <div class="grid gap-6 gap-y-10 text-text md:grid-cols-2 hb:grid-cols-3 sm-max:grid-cols-1">
-                        <div class="">
+                        {{-- <div class="">
                             <img class="rounded-lg w-full mb-1 shadow-xl" src="{{asset('svg/Yamaha_img.svg')}}" alt="Product Image">
                             <h4 class="font-semibold text-xl mb-1">Yamaha</h4>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore, cum. Qui cupiditate mollitia,
-                              incidunt ducimus natus, fugiat consectetur aut id iure error at eum recusandae eveniet et earum amet ullam!</p>
+                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore, cum. Qui cupiditate mollitia, incidunt ducimus natus, fugiat consectetur aut id iure error at eum recusandae eveniet et earum amet ullam!</p>
+                            <div class="flex gap-2 text-center mt-4">
+                                <a class="border-2 border-link p-2 rounded-md grow text-text hover:scale-105 duration-300" href=""><button type="button">EDIT</button></a>
+                                <a class="bg-red-700 p-2 rounded-md grow hover:bg-red-800 duration-300" href=""><button type="button">DELETE</button></a>
+                            </div>
+                        </div> --}}
+                        @foreach ( $produk as $produk )
+                        <div class="">
+                            <img class="rounded-lg w-full mb-1 shadow-xl" src="{{ asset('storage/' . $produk->image_path) }}" alt="Product Image">
+                            <h4 class="font-semibold text-xl mb-1">Yamaha</h4>
+                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore, cum. Qui cupiditate mollitia,incidunt ducimus natus, fugiat consectetur aut id iure error at eum recusandae eveniet et earum amet ullam!</p>
                             <div class="flex gap-2 text-center mt-4">
                                 <a class="border-2 border-link p-2 rounded-md grow text-text hover:scale-105 duration-300" href=""><button type="button">EDIT</button></a>
                                 <a class="bg-red-700 p-2 rounded-md grow hover:bg-red-800 duration-300" href=""><button type="button">DELETE</button></a>
                             </div>
                         </div>
-                        <div class="">
-                            <img class="rounded-lg w-full mb-1 shadow-xl" src="{{asset('svg/Yamaha_img.svg')}}" alt="Product Image">
-                            <h4 class="font-semibold text-xl mb-1">Yamaha</h4>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore, cum. Qui cupiditate mollitia,
-                              incidunt ducimus natus, fugiat consectetur aut id iure error at eum recusandae eveniet et earum amet ullam!</p>
-                            <div class="flex gap-2 text-center mt-4">
-                                <a class="border-2 border-link p-2 rounded-md grow text-text hover:scale-105 duration-300" href=""><button type="button">EDIT</button></a>
-                                <a class="bg-red-700 p-2 rounded-md grow hover:bg-red-800 duration-300" href=""><button type="button">DELETE</button></a>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
