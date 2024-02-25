@@ -10,39 +10,35 @@
 </head>
 <body class="bg-gradient-dark">
     <div class="max-w-[95%] m-auto flex">
-        <aside class="hamberg bg-gradient-to-t from-primary to-link flex flex-col justify-start w-72 h-dashboard my-8 rounded-lg
-          hb-max:fixed hb-max:w-60 hb-max:-translate-x-80 z-10 duration-300">
-            <img src="svg/title.svg" class="mx-12 mt-6 mb-3" alt="ITeam Logo">
+        <aside class="hamberg bg-gradient-to-t from-primary to-link flex flex-col justify-start w-72 h-dashboard my-8 rounded-lg hb-max:fixed hb-max:w-60 hb-max:-translate-x-80 z-10 duration-300">
+            <img src="{{asset("svg/title.svg")}}" class="mx-12 mt-6 mb-3" alt="ITeam Logo">
             <div class="h-0.5 shade-c opacity-15 my-4"></div>
             <ul>
-                <form class="flex items-center justify-center hb:hidden" action="">
-                    <input class="w-2/3 p-2 bg-transparent border-2 rounded-md outline-none" placeholder="Search here" type="search" id="search">
+                <form class="flex items-center justify-center hb:hidden" id="search" action="{{ route('admin.dashboard') }}" method="GET">
+                    <input class="w-2/3 p-2 bg-transparent border-2 rounded-md outline-none" placeholder="Search here" type="search" name="search">
                     <button class="bg-link rounded-md ml-4 w-9 h-9" type="submit"><i class="w-9 text-text" data-feather="search"></i></button>
                 </form>
                 <a href="" class="bg-primary rounded-lg m-3 flex items-center text-text">
                     <i data-feather="trending-up" class="m-4"></i>
                     <span class="font-semibold text-lg py-4">Dashboard</span>
                 </a>
-                <a href="" class="hover:bg-secondary rounded-lg m-3 flex items-center text-slate-300 hover:text-text opacity-60 hover:opacity-100 duration-300">
+                <a href="{{ route("admin.listProduct") }}" class="hover:bg-secondary rounded-lg m-3 flex items-center text-slate-300 hover:text-text opacity-60 hover:opacity-100 duration-300">
                     <i data-feather="shopping-bag" class="m-4"></i>
                     <span class="font-semibold text-lg py-4">Product List</span>
                 </a>
-                <a href="" class="hover:bg-secondary rounded-lg m-3 flex items-center text-slate-300 hover:text-text opacity-60 hover:opacity-100 duration-300">
+                <a href="{{ route('admin.addProduct') }}" class="hover:bg-secondary rounded-lg m-3 flex items-center text-slate-300 hover:text-text opacity-60 hover:opacity-100 duration-300">
                     <i data-feather="upload" class="m-4"></i>
                     <span class="font-semibold text-lg py-4">Add Product</span>
                 </a>
             </ul>
-            <a href="" class="bg-link rounded-lg mx-3 mb-3 mt-auto p-2 flex justify-center text-text font-semibold">
-                <p>Log Out</p>
-            </a>
+            <a href="{{ route( "logOut" )}}" class="bg-link rounded-lg mx-3 mb-3 mt-auto p-2 flex justify-center text-text font-semibold"><p>Log Out</p></a>
         </aside>
-        <div class="text-text h-dashboard ml-8 my-8 w-full
-          hb-max:ml-0">
+        <div class="text-text h-dashboard ml-8 my-8 w-full hb-max:ml-0">
             <div class="flex items-baseline justify-between">
                 <h3 class="font-bold text-xl">Dashboard</h3>
                 <div class="flex items-center gap-x-8">
-                    <form class="hidden items-center hb:flex" action="">
-                        <input class="p-2 bg-transparent border-2 rounded-md outline-none" placeholder="Search here" type="search" id="search">
+                    <form class="hidden items-center hb:flex" action="{{ route('admin.dashboard') }}" method="GET">
+                        <input class="p-2 bg-transparent border-2 rounded-md outline-none" placeholder="Search here" type="search" name="search">
                         <button class="bg-link rounded-md ml-4 w-9 h-9" type="submit"><i class="w-9" data-feather="search"></i></button>
                     </form>
                     <div class="w-8 h-8 hidden hb-max:block">
@@ -61,7 +57,7 @@
                     </div>
                     <div class="text-right mr-2">
                         <span>Total Products</span>
-                        <h3 class="text-3xl font-semibold">87</h3>
+                        <h3 class="text-3xl font-semibold">{{ $produk }}</h3>
                     </div>
                 </div>
                 <div class="flex justify-between mt-12 bg-line w-1/3 p-2 rounded-lg md-max:w-full">
@@ -70,7 +66,7 @@
                     </div>
                     <div class="text-right mr-2">
                         <span>Total Likes</span>
-                        <h3 class="text-3xl font-semibold">347</h3>
+                        <h3 class="text-3xl font-semibold">{{ $likes }}</h3>
                     </div>
                 </div>
                 <div class="flex justify-between mt-12 bg-line w-1/3 p-2 rounded-lg md-max:w-full">
@@ -79,7 +75,7 @@
                     </div>
                     <div class="text-right mr-2">
                         <span>Total Users</span>
-                        <h3 class="text-3xl font-semibold">126</h3>
+                        <h3 class="text-3xl font-semibold">{{ $userlist }}</h3>
                     </div>
                 </div>
             </div>
@@ -93,43 +89,27 @@
                             <tr class="even:bg-evens">
                                 <th class="p-4">Email</th>
                                 <th class="p-4">Name</th>
-                                <th class="p-4">Jus Kiding</th>
-                                <th class="p-4">Telp. Number</th>
+                                <th class="p-4">Gender</th>
+                                <th class="p-4">Phone Number</th>
                                 <th class="p-4">Action</th>
                             </tr>
+                            @foreach ( $user as $data )
                             <tr class="even:bg-evens">
-                                <td class="p-4">z@gmail.com</td>
-                                <td class="p-4">Zekree</td>
-                                <td class="p-4">Pria</td>
-                                <td class="p-4">09782436798</td>
+                                <td class="p-4">{{ $data->email }}</td>
+                                <td class="p-4">{{ $data->nama }}</td>
+                                <td class="p-4">{{ $data->jenis_kelamin }}</td>
+                                <td class="p-4">{{ $data->no_telp }}</td>
                                 <td class="p-4">
-                                    <button type="submit">
-                                        <i class="m-auto text-text bg-red-600 w-8 h-8 p-1 rounded-md" data-feather="trash"></i>
-                                    </button>
+                                    <form class="flex justify-center" action="{{ route('admin.delete' , $data->id)}}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit">
+                                            <i class="m-auto text-text bg-primary w-8 h-8 p-1 rounded-md drop-shadow-2xl" data-feather="trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
-                            <tr class="even:bg-evens">
-                                <td class="p-4">x@gmail.com</td>
-                                <td class="p-4">Temen Virgi</td>
-                                <td class="p-4">Wanita</td>
-                                <td class="p-4">089426986988</td>
-                                <td class="p-4">
-                                    <button type="submit">
-                                        <i class="m-auto text-text bg-red-600 w-8 h-8 p-1 rounded-md" data-feather="trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="even:bg-evens">
-                                <td class="p-4">u@gmail.com</td>
-                                <td class="p-4">Mantan Zekree</td>
-                                <td class="p-4">Wanita</td>
-                                <td class="p-4">98685247398</td>
-                                <td class="p-4">
-                                    <button type="submit">
-                                        <i class="m-auto text-text bg-red-600 w-8 h-8 p-1 rounded-md" data-feather="trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            @endforeach
                         </table>
                     </div>
                 </div>
