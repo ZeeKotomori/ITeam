@@ -30,8 +30,31 @@
         box-shadow: 0 0 0 2em transparent;
     }
 
-    .scrolling {
-        scroll-behavior: smooth;
+    .sirkel {
+        background-image: radial-gradient(circle farthest-side, rgba(123, 97, 255, .29), rgba(142, 57, 197, 0));
+    }
+
+    .sirkel-2 {
+        background-image: radial-gradient(circle farthest-side, rgba(184, 97, 255, 0.29), rgba(212, 56, 218, 0));
+    }
+
+    ::-webkit-scrollbar {
+        width: 9px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #6A6AFF; 
+        border-radius: 10px;
+    }
+
+    .showY {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .showX {
+        transform: translateX(0);
+        opacity: 1;
     }
     
     /* Animation */
