@@ -10,13 +10,12 @@
 </head>
 <body class="bg-gradient-dark">
     <div class="max-w-[95%] m-auto flex">
-        <aside class="hamberg bg-gradient-to-t from-primary to-link flex flex-col justify-start w-72 h-dashboard my-8 rounded-lg
-          hb-max:fixed hb-max:w-60 hb-max:-translate-x-80 z-10 duration-300">
+        <aside class="hamberg bg-gradient-to-t from-primary to-link flex flex-col justify-start w-72 h-dashboard my-8 rounded-lg hb-max:fixed hb-max:w-60 hb-max:-translate-x-80 z-10 duration-300">
             <img src="svg/title.svg" class="mx-12 mt-6 mb-3" alt="ITeam Logo">
             <div class="h-0.5 shade-c opacity-15 my-4"></div>
             <ul>
-                <form class="flex items-center justify-center hb:hidden" action="">
-                    <input class="w-2/3 p-2 bg-transparent border-2 rounded-md outline-none" placeholder="Search here" type="search" id="search">
+                <form class="flex items-center justify-center hb:hidden" action="{{ route('admin.listProduct') }}" method="GET">
+                    <input class="w-2/3 p-2 bg-transparent border-2 rounded-md outline-none" placeholder="Search here" type="search" name="search">
                     <button class="bg-link rounded-md ml-4 w-9 h-9" type="submit"><i class="w-9 text-text" data-feather="search"></i></button>
                 </form>
                 <a href="{{ route("admin.dashboard") }}" class="hover:bg-secondary rounded-lg m-3 flex items-center text-slate-300 hover:text-text opacity-60 hover:opacity-100 duration-300">
@@ -36,14 +35,13 @@
                 <p>Log Out</p>
             </a>
         </aside>
-        <div class="text-text hb:h-dashboard ml-8 my-8 w-full h-full
-          hb-max:ml-0">
+        <div class="text-text hb:h-dashboard ml-8 my-8 w-full h-full hb-max:ml-0">
             <div class="flex items-baseline justify-between">
                 <h3 class="font-bold text-xl">Product List</h3>
                 <div class="flex items-center gap-x-8">
-                    <form class="hidden items-center hb:flex" action="">
-                        <input class="p-2 bg-transparent border-2 rounded-md outline-none" placeholder="Search here" type="search" id="search">
-                        <button class="bg-link rounded-md ml-4 w-9 h-9 hover:scale-105 duration-300" type="submit"><i class="w-9" data-feather="search"></i></button>
+                    <form class="hidden items-center hb:flex" action="{{ route('admin.listProduct') }}" method="GET">
+                        <input class="w-2/3 p-2 bg-transparent border-2 rounded-md outline-none" placeholder="Search here" type="search" name="search">
+                        <button class="bg-link rounded-md ml-4 w-9 h-9" type="submit"><i class="w-9 text-text" data-feather="search"></i></button>
                     </form>
                     <div class="w-8 h-8 hidden hb-max:block">
                         <button class="text-white" id="hamburger">
@@ -60,23 +58,20 @@
                         <h3 class="font-semibold text-xl">Product List</h3>
                     </div>
                     <div class="grid gap-6 gap-y-10 text-text md:grid-cols-2 hb:grid-cols-3 sm-max:grid-cols-1">
-                        {{-- <div class="">
-                            <img class="rounded-lg w-full mb-1 shadow-xl" src="{{asset('svg/Yamaha_img.svg')}}" alt="Product Image">
-                            <h4 class="font-semibold text-xl mb-1">Yamaha</h4>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore, cum. Qui cupiditate mollitia, incidunt ducimus natus, fugiat consectetur aut id iure error at eum recusandae eveniet et earum amet ullam!</p>
-                            <div class="flex gap-2 text-center mt-4">
-                                <a class="border-2 border-link p-2 rounded-md grow text-text hover:scale-105 duration-300" href=""><button type="button">EDIT</button></a>
-                                <a class="bg-red-700 p-2 rounded-md grow hover:bg-red-800 duration-300" href=""><button type="button">DELETE</button></a>
-                            </div>
-                        </div> --}}
                         @foreach ( $produk as $produk )
                         <div class="">
                             <img class="rounded-lg w-full mb-1 shadow-xl" src="{{ asset('storage/' . $produk->image_path) }}" alt="Product Image">
-                            <h4 class="font-semibold text-xl mb-1">Yamaha</h4>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore, cum. Qui cupiditate mollitia,incidunt ducimus natus, fugiat consectetur aut id iure error at eum recusandae eveniet et earum amet ullam!</p>
+                            <h4 class="font-semibold text-xl mb-1">{{ $produk->nama }}</h4>
+                            <p>{{ $produk->desk }}</p>
                             <div class="flex gap-2 text-center mt-4">
-                                <a class="border-2 border-link p-2 rounded-md grow text-text hover:scale-105 duration-300" href=""><button type="button">EDIT</button></a>
-                                <a class="bg-red-700 p-2 rounded-md grow hover:bg-red-800 duration-300" href=""><button type="button">DELETE</button></a>
+                                <a class="border-2 border-link p-2 rounded-md grow text-text hover:scale-105 duration-300" href="{{ route('admin.editProduk', $produk->id) }}"><button type="button">EDIT</button></a>
+                                <form class="flex justify-center" action="{{ route('admin.deleteProduct' , $produk->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit">
+                                        <i class="m-auto text-text bg-primary w-8 h-8 p-1 rounded-md drop-shadow-2xl" data-feather="trash"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                         @endforeach
