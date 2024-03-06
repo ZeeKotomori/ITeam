@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/phpinfo', function () {
+    phpinfo();
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -30,14 +34,16 @@ Route::controller(AuthController::class)->group(function(){
 
 Route::group(['prefix' => 'user','middleware' => ['auth'], 'as', 'user'], function(){
     Route::get('/index',[UserController::class,'index'])->name('user.index');
+    Route::post('/index',[UserController::class,'comment'])->name('user.comment');
 });
 
 Route::group(['prefix' => 'admin','middleware' => ['auth'], 'as', 'admin'], function(){
-    Route::get('/edit/{produk:id}',[AdminController::class,'editProduk'])->name('admin.editProduk');
     Route::get('/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
     Route::get('/listProduct',[AdminController::class,'listProduct'])->name('admin.listProduct');
     Route::get('/delete/{user:id}',[AdminController::class,'delete'])->name('admin.delete');
     Route::get('/deleteProduct/{produk:id}',[AdminController::class,'deleteProduct'])->name('admin.deleteProduct');
     Route::get('/addProduct',[AdminController::class,'addProduct'])->name('admin.addProduct');
     Route::post('/upImg',[AdminController::class,'upImg'])->name('admin.upImg');
+    Route::post('/update/{produk:id}',[AdminController::class,'updateProduct'])->name('admin.updateProduct');
+    Route::get('/edit/{produk:id}',[AdminController::class,'editProduct'])->name('admin.editProduct');
 });
