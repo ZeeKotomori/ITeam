@@ -90,7 +90,10 @@ class AdminController extends Controller{
         $produkEdit->image_path = $imageName;
         $produkEdit->save();
 
-        return back()->with('success', 'Produk berhasil diperbarui.');
+        return response()->view('admin.productList',
+        [
+            'produk' => $produk
+        ])->header('Cache-Control', 'no-cache, no-store, must-revalidate')->header('Pragma', 'no-cache')->header('Expires', '0');
     }
     public function addProduct(){
         return response()->view('admin.addProduct')->header('Cache-Control', 'no-cache, no-store, must-revalidate')->header('Pragma', 'no-cache')->header('Expires', '0');
