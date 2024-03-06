@@ -45,7 +45,6 @@ class AdminController extends Controller{
     }
     public function updateProduct(Request $request, Produk $produk) {
         $produkEdit = Produk::findOrFail($produk->id);
-
         $request->validate([
             'image' => 'image',
             'nama'  => 'required',
@@ -56,6 +55,7 @@ class AdminController extends Controller{
         $nama = $request->nama;
         $desk = $request->desk;
         $link = $request->link;
+        $tipegambar = $produkEdit->tipeimage;
         $imageName = $produkEdit->image_path;
 
         if ($request->hasFile('image')) {
@@ -64,18 +64,30 @@ class AdminController extends Controller{
                 Storage::disk('public')->delete('post-images/' . $produkEdit->image_path);
             }
 
+            // Cek apakah nama yang diinput sudah ada dalam database
+            $cekNama = Produk::where('nama', $nama)
+                ->where('id', '!=', $produk->id)
+                ->count();
+
+            // Jika nama sudah ada, tambahkan nomor unik
+            if ($cekNama > 0) {
+                $nama .= ' ' . ($cekNama + 1);
+            }
+
             // Unggah gambar baru
+            $manager = new ImageManager(new Driver());
             $gambar = $request->file('image');
             $tipegambar = $gambar->getClientMimeType();
-            $imageName = 'post-images/'.$nama.'.'.$gambar->extension();
-            $gambar->move(public_path('storage/post-images'), $imageName);
+            $imageName = $nama.'.'.$gambar->extension();
+            $gambar = $manager->read($gambar)->resize(200, 100);
+            $gambar->save(public_path('storage/post-images/' . $imageName));
         }
 
         $produkEdit->nama = $nama;
         $produkEdit->desk = $desk;
         $produkEdit->link = $link;
-        $produkEdit->tipeimage = $tipegambar ?? $produkEdit->tipeimage;
-        $produkEdit->image_path = $imageName ?? $produkEdit->image_path;
+        $produkEdit->tipeimage = $tipegambar;
+        $produkEdit->image_path = $imageName;
         $produkEdit->save();
 
         return back()->with('success', 'Produk berhasil diperbarui.');
