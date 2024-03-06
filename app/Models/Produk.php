@@ -21,11 +21,11 @@ class Produk extends Model
         'updated_at'
     ];
 
-    public function ProductLikes() : HasMany
+    public function likes() : HasMany
     {
         return $this->hasMany(Likes::class);
     }
-    public function ProductComment() : HasMany
+    public function comments() : HasMany
     {
         return $this->hasMany(Komentar::class);
     }
