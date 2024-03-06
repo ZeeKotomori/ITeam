@@ -7,7 +7,8 @@ use App\Models\User;
 use App\Models\Produk;
 use App\Models\Likes;
 use Illuminate\Support\Facades\Storage;
-// use Intervention\Image\ImageManager;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class AdminController extends Controller{
     public function dashboard(Request $request){
@@ -37,11 +38,14 @@ class AdminController extends Controller{
         User::destroy($User->id);
         return back();
     }
-    public function editProduk(){
-        return response()->view('admin.editProduct')->header('Cache-Control', 'no-cache, no-store, must-revalidate')->header('Pragma', 'no-cache')->header('Expires', '0');
+    public function editProduct(Request $request, Produk $produk){
+        return response()->view('admin.editProduct',[
+            "produk" => $produk
+        ])->header('Cache-Control', 'no-cache, no-store, must-revalidate')->header('Pragma', 'no-cache')->header('Expires', '0');
     }
-    public function updateProduk(Request $request, Produk $produk) {
-        $produkEdit = Produk::FindorFail($produk->id);
+    public function updateProduct(Request $request, Produk $produk) {
+        $produkEdit = Produk::findOrFail($produk->id);
+
         $request->validate([
             'image' => 'image',
             'nama'  => 'required',
@@ -55,25 +59,26 @@ class AdminController extends Controller{
         $imageName = $produkEdit->image_path;
 
         if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
             if ($produkEdit->image_path) {
                 Storage::disk('public')->delete('post-images/' . $produkEdit->image_path);
             }
+
+            // Unggah gambar baru
             $gambar = $request->file('image');
             $tipegambar = $gambar->getClientMimeType();
             $imageName = 'post-images/'.$nama.'.'.$gambar->extension();
-            // $gambar = Image::make($gambar)->encode('jpg', 50);
             $gambar->move(public_path('storage/post-images'), $imageName);
-
-            $produk = $produkEdit;
-            $produk->nama = $nama;
-            $produk->desk = $desk;
-            $produk->link = $link;
-            $produk->tipeimage = $tipegambar;
-            $produk->image_path = $imageName;
-            $produk->save();
-
-            return back();
         }
+
+        $produkEdit->nama = $nama;
+        $produkEdit->desk = $desk;
+        $produkEdit->link = $link;
+        $produkEdit->tipeimage = $tipegambar ?? $produkEdit->tipeimage;
+        $produkEdit->image_path = $imageName ?? $produkEdit->image_path;
+        $produkEdit->save();
+
+        return back()->with('success', 'Produk berhasil diperbarui.');
     }
     public function addProduct(){
         return response()->view('admin.addProduct')->header('Cache-Control', 'no-cache, no-store, must-revalidate')->header('Pragma', 'no-cache')->header('Expires', '0');
@@ -109,12 +114,23 @@ class AdminController extends Controller{
         $desk = $request->desk;
         $link = $request->link;
 
+        $cekNama = Produk::where('nama', $nama)->count();
+
+        if ($cekNama > 0) {
+            $i = 2;
+            while (Produk::where('nama', $nama . ' ' . $i)->exists()) {
+                $i++;
+            }
+            $nama = $nama . ' ' . $i;
+        }
+
         if ($request->hasFile('image')) {
+            $manager = new ImageManager(new Driver());
             $gambar = $request->file('image');
             $tipegambar = $gambar->getClientMimeType();
-            $imageName = 'post-images/'.$nama.'.'.$gambar->extension();
-            // $gambar = Image::make($gambar)->encode('jpg', 50);
-            $gambar->move(public_path('storage/post-images'), $imageName);
+            $imageName =    $nama.'.'.$gambar->extension();
+            $gambar = $manager->read($gambar)->resize(200, 100);
+            $gambar->save(public_path('storage/post-images/'. $imageName));
 
             $produk = new Produk();
             $produk->nama = $nama;
