@@ -39,21 +39,20 @@
             <a href="#product"><i class="text-text size-10 w-full mt-24 animate-bounce hb:mt-16 hb:size-14 hb:w-full" data-feather="arrow-down"></i></a>
         </div>
     </header>
-
     <div class="w-10/12 m-auto mb-24 pt-[66px] md:w-9/12" id="product">
         <h2 class="before:block before:h-[1px] before:w-1/2 before:shade-l md:before:w-1/2 after:block after:h-[1px] after:w-1/2 after:shade-r md:after:w-1/2 flex justify-center items-center gap-x-4 text-xl text-center text-text font-bold mb-8 pb-2
             md:text-3xl">Product</h2>
         <div class="grid gap-8 sm-card:grid-cols-2 md-card:grid-cols-3 lg-card:grid-cols-4">
             @foreach ( $produk as $produk )
             <div class="hidden top-0 bottom-0 right-0 left-0 bg-slate-950/80 z-10" id="overlay"></div>
-            <div class="hidden top-0 w-screen h-screen z-20 bg-slate-900 text-text overflow-y-auto max-h-screen hb:w-[70%] hb:h-auto hb:top-1/2 hb:left-1/2 hb:-translate-x-1/2 hb:-translate-y-1/2 hb:shadow-2xl hb:shadow-white/5 hb:rounded-md" id="{{$produk->id}}">
+            <div class="commentSection hidden top-0 w-screen h-screen z-20 bg-slate-900 text-text overflow-y-auto max-h-screen hb:w-[70%] hb:h-auto hb:top-1/2 hb:left-1/2 hb:-translate-x-1/2 hb:-translate-y-1/2 hb:shadow-2xl hb:shadow-white/5 hb:rounded-md" id="{{$produk->id}}">
                 <div class="hb:grid hb:grid-cols-2 hb:grid-rows-[55px_auto_auto]">
                     <img class="w-full h-full row-span-3 bg-indigo-950/40 hb-max:hidden" src="{{ asset('svg/Celviano_img.svg') }}" alt="">
                     <div class="sticky top-0 left-0 right-0 backdrop-blur-lg hb:static">
                         <div class="w-10/12 m-auto flex justify-end items-center py-3 md:w-9/12 hb:w-full hb:px-[5%]">
                             <div class="w-6 h-0"></div>
                             <h2 class="grow text-center font-semibold text-lg">Comment</h2>
-                            <button id="close"><i data-feather="x"></i></button>
+                            <button data-id="{{$produk->id}}" onclick="closeComment(this);"><i data-feather="x"></i></button>
                         </div>
                         <div class="h-[1px] opacity-30 shade-c mb-3"></div>
                     </div>
@@ -147,39 +146,23 @@
         const closeBtn = document.getElementById('close');
         const overlay = document.getElementById('overlay');
 
-        function openComment(button) {
+        function openComment(open) {
+            const id = open.getAttribute('data-id');
             const commentSection = document.getElementById(id);
-            var id = button.getAttribute('data-id');
-            console.log(id);
             commentSection.classList.remove('hidden');
             commentSection.classList.add('fixed');
             overlay.classList.remove('hidden');
             overlay.classList.add('fixed');
         };
 
-        function closeComment() {
+        function closeComment(close) {
+            const id = close.getAttribute('data-id');
+            const commentSection = document.getElementById(id);
             commentSection.classList.remove('fixed');
             commentSection.classList.add('hidden');
             overlay.classList.remove('fixed');
             overlay.classList.add('hidden');
         };
-
-        setInterval(() => {
-            const commentPosition = window.getComputedStyle(commentSection).getPropertyValue('position');
-            const body = document.querySelector('body');
-
-            if (commentPosition === 'fixed') {
-                body.style.overflowY = 'hidden';
-            } else {
-                body.style.overflowY = 'auto';
-            }
-        }, 10);
-
-        // comment.forEach(button => {
-        //     button.addEventListener('click', openComment);
-        // });
-
-        closeBtn.addEventListener('click', closeComment);
 
         // Parallax
         const scroller = new LocomotiveScroll({});
