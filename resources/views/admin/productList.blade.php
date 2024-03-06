@@ -60,11 +60,13 @@
                     <div class="grid gap-6 gap-y-10 text-text md:grid-cols-2 hb:grid-cols-3 sm-max:grid-cols-1">
                         @foreach ( $produk as $produk )
                         <div class="">
-                            <img class="rounded-lg w-full mb-1 shadow-xl" src="{{ asset('storage/' . $produk->image_path) }}" alt="Product Image">
+                            <img class="rounded-lg w-full mb-1 shadow-xl" src="{{ asset('storage/post-images/' . $produk->image_path) }}" alt="Product Image">
                             <h4 class="font-semibold text-xl mb-1">{{ $produk->nama }}</h4>
                             <p>{{ $produk->desk }}</p>
                             <div class="flex gap-2 text-center mt-4">
-                                <a class="border-2 border-link p-2 rounded-md grow text-text hover:scale-105 duration-300" href="{{ route('admin.editProduct', $produk->id) }}"><button type="button">EDIT</button></a>
+                                <a class="border-2 border-link p-2 rounded-md grow text-text hover:scale-105 duration-300" href="{{ route('admin.editProduct', $produk->id) }}">
+                                    <button type="button">EDIT</button>
+                                </a>
                                 <form class="flex justify-center" action="{{ route('admin.deleteProduct' , $produk->id) }}">
                                     @csrf
                                     @method('DELETE')

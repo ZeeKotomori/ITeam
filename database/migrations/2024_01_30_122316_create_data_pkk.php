@@ -24,7 +24,7 @@ return new class extends Migration
 
         Schema::create('produk', function (Blueprint $table) {
             $table->id();
-            $table->string('nama', 50);
+            $table->string('nama', 50)->unique();
             $table->string('tipeimage', 20);
             $table->string('image_path');
             $table->string('desk');
@@ -41,7 +41,8 @@ return new class extends Migration
 
         Schema::create('komentar', function (Blueprint $table) {
             $table->id();
-            $table->integer('produk_id');
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('user_id');
             $table->text('komentar');
             $table->timestamps();
@@ -57,6 +58,5 @@ return new class extends Migration
         Schema::dropIfExists('produk');
         Schema::dropIfExists('likes');
         Schema::dropIfExists('komentar');
-        Schema::dropIfExists('image');
     }
 };
