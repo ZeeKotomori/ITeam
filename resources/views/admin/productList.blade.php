@@ -11,7 +11,7 @@
 <body class="bg-gradient-dark">
     <div class="max-w-[95%] m-auto flex">
         <aside class="hamberg bg-gradient-to-t from-primary to-link flex flex-col justify-start w-72 h-dashboard my-8 rounded-lg hb-max:fixed hb-max:w-60 hb-max:-translate-x-80 z-10 duration-300">
-            <img src="svg/title.svg" class="mx-12 mt-6 mb-3" alt="ITeam Logo">
+            <img src="{{asset("svg/title.svg")}}" class="mx-12 mt-6 mb-3" alt="ITeam Logo">
             <div class="h-0.5 shade-c opacity-15 my-4"></div>
             <ul>
                 <form class="flex items-center justify-center hb:hidden" action="{{ route('admin.listProduct') }}" method="GET">
