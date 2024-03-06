@@ -10,9 +10,8 @@
 </head>
 <body class="bg-gradient-dark">
     <div class="max-w-[95%] m-auto flex">
-        <aside class="hamberg bg-gradient-to-t from-primary to-link flex flex-col justify-start w-72 h-dashboard my-8 rounded-lg
-          hb-max:fixed hb-max:w-60 hb-max:-translate-x-80 z-10 duration-300">
-            <img src="{{asset("svg/title.svg")}}" class="mx-12 mt-6 mb-3" alt="ITeam Logo">
+        <aside class="hamberg bg-gradient-to-t from-primary to-link flex flex-col justify-start w-72 h-dashboard my-8 rounded-lg hb-max:fixed hb-max:w-60 hb-max:-translate-x-80 z-10 duration-300">
+            <img src="{{ asset('svg/title.svg') }}" class="mx-12 mt-6 mb-3" alt="ITeam Logo">
             <div class="h-0.5 shade-c opacity-15 my-4"></div>
             <ul>
                 <a href="{{ route("admin.dashboard") }}" class="hover:bg-secondary rounded-lg m-3 flex items-center text-slate-300 hover:text-text opacity-60 hover:opacity-100 duration-300">
@@ -104,7 +103,7 @@
                 imgUpload.innerHTML = "Tidak ada file yang dipilih";
             } else {
                 let Spliter = files.value.split('\\');
-                imgUpload.innerHTML = Spliter[Spliter.length - 1];               
+                imgUpload.innerHTML = Spliter[Spliter.length - 1];
             }
         });
 
