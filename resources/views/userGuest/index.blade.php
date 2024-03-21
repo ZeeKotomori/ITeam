@@ -39,38 +39,42 @@
             <a href="#product"><i class="text-text size-10 w-full mt-24 animate-bounce hb:mt-16 hb:size-14 hb:w-full" data-feather="arrow-down"></i></a>
         </div>
     </header>
-
     <div class="w-10/12 m-auto mb-24 pt-[66px] md:w-9/12" id="product">
         <h2 class="before:block before:h-[1px] before:w-1/2 before:shade-l md:before:w-1/2 after:block after:h-[1px] after:w-1/2 after:shade-r md:after:w-1/2 flex justify-center items-center gap-x-4 text-xl text-center text-text font-bold mb-8 pb-2
             md:text-3xl">Product</h2>
         <div class="grid gap-8 sm-card:grid-cols-2 md-card:grid-cols-3 lg-card:grid-cols-4">
             @foreach ( $produk as $produk )
             <div class="hidden top-0 bottom-0 right-0 left-0 bg-slate-950/80 z-10" id="overlay"></div>
-            <div class="hidden top-0 w-screen h-screen z-20 bg-slate-900 text-text overflow-y-auto max-h-screen hb:w-[70%] hb:h-auto hb:top-1/2 hb:left-1/2 hb:-translate-x-1/2 hb:-translate-y-1/2 hb:shadow-2xl hb:shadow-white/5 hb:rounded-md" id="{{$produk->id}}">
+            <div class="commentSection hidden top-0 w-screen h-screen z-20 bg-slate-900 text-text overflow-y-auto max-h-screen hb:w-[70%] hb:h-auto hb:top-1/2 hb:left-1/2 hb:-translate-x-1/2 hb:-translate-y-1/2 hb:shadow-2xl hb:shadow-white/5 hb:rounded-md" id="{{$produk->id}}">
                 <div class="hb:grid hb:grid-cols-2 hb:grid-rows-[55px_auto_auto]">
-                    <img class="w-full h-full row-span-3 bg-indigo-950/40 hb-max:hidden" src="{{ asset('svg/Celviano_img.svg') }}" alt="">
+                    <img class="w-full h-full row-span-3 bg-indigo-950/40 hb-max:hidden" src="{{ asset('storage/post-images/' . $produk->image_path) }}" alt="">
                     <div class="sticky top-0 left-0 right-0 backdrop-blur-lg hb:static">
                         <div class="w-10/12 m-auto flex justify-end items-center py-3 md:w-9/12 hb:w-full hb:px-[5%]">
                             <div class="w-6 h-0"></div>
                             <h2 class="grow text-center font-semibold text-lg">Comment</h2>
-                            <button id="close"><i data-feather="x"></i></button>
+                            <button data-id="{{ $produk->id }}" onclick="closeComment(this);"><i data-feather="x"></i></button>
                         </div>
                         <div class="h-[1px] opacity-30 shade-c mb-3"></div>
                     </div>
                     <div class="w-10/12 m-auto my-2 md:w-9/12 hb:w-full hb:min-h-96 hb:max-h-96 hb:px-[5%] hb:overflow-y-scroll">
-                        <div class="mb-5">
-                            <p>{{ $produk->id}}</p>
-                            <h3 class="font-medium mb-1">Asep Suryana</h3>
-                            <p class="font-light">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione excepturi consequuntur hic. Odit obcaecati sapiente voluptas veritatis, et excepturi placeat.</p>
+                        @foreach ($produk->comments as $comment)
+                        <div class="pb-5 flex justify-between">
+                            <div class="">
+                                <h3 class="font-medium mb-1 text-lg">{{ $comment->user->nama }}</h3>
+                                <p class="font-light">{{ $comment->komentar }}</p>
+                            </div>
+                            <p class="font-thin">{{ $comment->created_at->format('Y-m-d') }}</p>
                         </div>
+                        @endforeach
                     </div>
                     <div class="fixed bottom-0 left-0 right-0 mr-[11px] z-20 text-text hb:static">
                         <div class="h-[1px] opacity-30 shade-c"></div>
-                        <form class="w-10/12 m-auto flex gap-x-[27px] items-center py-6 md:w-9/12 md:gap-x-[38px] hb:gap-x-8 hb:w-full hb:px-[5%]" action="{{ route('user.comment', $produk->id) }}" method="POST" id="komentar">
+                        <form class="w-10/12 m-auto flex gap-x-[27px] items-center py-6 md:w-9/12 md:gap-x-[38px] hb:gap-x-8 hb:w-full hb:px-[5%]" action="{{ route('user.comment', $produk->id) }}" method="POST" id="komentar-{{ $produk->id }}">
                             @csrf
-                            <input class="hidden" name="product_id" value="{{ $produk->id }}">
-                            <textarea class="resize-none bg-transparent border-[.5px] border-text py-1 px-2 grow rounded-md outline-none" name="komentar" id="" rows="2" placeholder="Type a comment..."></textarea>
-                            <button><i class="opacity-30 hover:opacity-100 duration-300" data-feather="arrow-right"></i></button>
+                            <textarea class="resize-none bg-transparent border-[.5px] border-text py-1 px-2 grow rounded-md outline-none" name="komentar" rows="2" placeholder="Type a comment..."></textarea>
+                            <button>
+                                <i class="opacity-30 hover:opacity-100 duration-300" data-feather="arrow-right"></i>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -81,7 +85,15 @@
                     <h3 class="font-semibold">{{ $produk->nama }}</h3>
                     <p class="opacity-70 py-2">{{ $produk->desk }}</p>
                     <div class="grid grid-cols-5 mt-2 gap-2">
-                        <a class="col-span-2 p-2 rounded-md duration-300 bg-red-500 hover:bg-red-800" href=""><button class="w-full flex gap-x-[30%]"><i data-feather="heart"></i>14</button></a>
+                        <form class="col-span-2 p-2 rounded-md duration-300 bg-red-500 hover:bg-red-800" action="{{ route("user.like", $produk->id) }}" method="POST"  id="like-form-{{ $produk->id }}" >
+                            @csrf
+                            <div class="flex">
+                                <button id="like-button-{{ $produk->id }}" data-id="{{ $produk->id }}" type="button" value="add" class="w-full flex gap-x-[30%]">
+                                    <i data-feather="heart"></i>
+                                    <p id="likesCount-{{ $produk->id }}">{{ count($produk->likes) }}</p>
+                                </button>
+                            </div>
+                        </form>
                         <button onclick="openComment(this);" data-id="{{ $produk->id }}" class="comment w-full text-center col-span-3 p-2 rounded-md duration-300 bg-link hover:bg-indigo-600/80">Comment</button>
                         <a class="col-span-5 p-2 rounded-md duration-300 bg-indigo-700 hover:bg-indigo-800" href="{{ $produk->link }}"><button class="w-full flex justify-center gap-x-2"> Link <i data-feather="arrow-right"></i></button></a>
                     </div>
@@ -125,6 +137,7 @@
     <div class="sirkel-2 -z-10 absolute w-[900px] h-[900px] top-[200px] -right-[500px]"></div>
     <div class="sirkel -z-10 absolute w-[700px] h-[700px] top-[45%] -right-[420px] hb:top-[60%]"></div>
     <div class="sirkel-2 -z-10 absolute w-[600px] h-[600px] bottom-[5%] -left-[320px] opacity-65"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Icon
         feather.replace();
@@ -147,42 +160,44 @@
         const closeBtn = document.getElementById('close');
         const overlay = document.getElementById('overlay');
 
-        function openComment(button) {
+        function openComment(open) {
+            const id = open.getAttribute('data-id');
             const commentSection = document.getElementById(id);
-            var id = button.getAttribute('data-id');
-            console.log(id);
             commentSection.classList.remove('hidden');
             commentSection.classList.add('fixed');
             overlay.classList.remove('hidden');
             overlay.classList.add('fixed');
         };
 
-        function closeComment() {
+        function closeComment(close) {
+            const id = close.getAttribute('data-id');
+            const commentSection = document.getElementById(id);
             commentSection.classList.remove('fixed');
             commentSection.classList.add('hidden');
             overlay.classList.remove('fixed');
             overlay.classList.add('hidden');
         };
 
-        setInterval(() => {
-            const commentPosition = window.getComputedStyle(commentSection).getPropertyValue('position');
-            const body = document.querySelector('body');
-
-            if (commentPosition === 'fixed') {
-                body.style.overflowY = 'hidden';
-            } else {
-                body.style.overflowY = 'auto';
-            }
-        }, 10);
-
-        // comment.forEach(button => {
-        //     button.addEventListener('click', openComment);
-        // });
-
-        closeBtn.addEventListener('click', closeComment);
-
         // Parallax
         const scroller = new LocomotiveScroll({});
+        $(document).ready(function() {
+            $('[id^="like-button-"]').on('click', function() {
+                var formId = $(this).closest('form').attr('id');
+                var formAction = $('#' + formId).attr('action');
+                var formMethod = $('#' + formId).attr('method');
+                var dataId = $(this).data('id');
+
+                $.ajax({
+                    type: formMethod,
+                    url: formAction.replace(':id', dataId),
+                    data: $('#' + formId).serialize(),
+                    success: function(response) {
+                        $('#likesCount-' + response.productId).text(response.likesCount);
+                    }
+                });
+            });
+        });
     </script>
+
 </body>
 </html>
