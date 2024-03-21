@@ -52,7 +52,7 @@
                         <div class="w-10/12 m-auto flex justify-end items-center py-3 md:w-9/12 hb:w-full hb:px-[5%]">
                             <div class="w-6 h-0"></div>
                             <h2 class="grow text-center font-semibold text-lg">Comment</h2>
-                            <button data-id="{{ $produk->id }}" onclick="closeComment(this);"><i data-feather="x"></i></button>
+                            <button id="close"><i data-feather="x"></i></button>
                         </div>
                         <div class="h-[1px] opacity-30 shade-c mb-3"></div>
                     </div>
