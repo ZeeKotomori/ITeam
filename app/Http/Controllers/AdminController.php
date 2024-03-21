@@ -38,7 +38,7 @@ class AdminController extends Controller{
         User::destroy($User->id);
         return back();
     }
-    public function editProduct(Request $request, Produk $produk){
+    public function editProduct(Produk $produk){
         return response()->view('admin.editProduct',[
             "produk" => $produk
         ])->header('Cache-Control', 'no-cache, no-store, must-revalidate')->header('Pragma', 'no-cache')->header('Expires', '0');
@@ -55,26 +55,22 @@ class AdminController extends Controller{
         $nama = $request->nama;
         $desk = $request->desk;
         $link = $request->link;
-        $tipegambar = $produkEdit->tipeimage;
+        $tipegambar = $produkEdit->tipe_image;
         $imageName = $produkEdit->image_path;
 
         if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
             if ($produkEdit->image_path) {
                 Storage::disk('public')->delete('post-images/' . $produkEdit->image_path);
             }
 
-            // Cek apakah nama yang diinput sudah ada dalam database
             $cekNama = Produk::where('nama', $nama)
                 ->where('id', '!=', $produk->id)
                 ->count();
 
-            // Jika nama sudah ada, tambahkan nomor unik
             if ($cekNama > 0) {
                 $nama .= ' ' . ($cekNama + 1);
             }
 
-            // Unggah gambar baru
             $manager = new ImageManager(new Driver());
             $gambar = $request->file('image');
             $tipegambar = $gambar->getClientMimeType();
@@ -86,14 +82,12 @@ class AdminController extends Controller{
         $produkEdit->nama = $nama;
         $produkEdit->desk = $desk;
         $produkEdit->link = $link;
-        $produkEdit->tipeimage = $tipegambar;
+        $produkEdit->tipe_image = $tipegambar;
         $produkEdit->image_path = $imageName;
         $produkEdit->save();
 
-        return response()->view('admin.productList',
-        [
-            'produk' => $produk
-        ])->header('Cache-Control', 'no-cache, no-store, must-revalidate')->header('Pragma', 'no-cache')->header('Expires', '0');
+        // dd($produkEdit);
+        return redirect()->route('admin.listProduct');
     }
     public function addProduct(){
         return response()->view('admin.addProduct')->header('Cache-Control', 'no-cache, no-store, must-revalidate')->header('Pragma', 'no-cache')->header('Expires', '0');
@@ -103,7 +97,7 @@ class AdminController extends Controller{
         if($searchTerm = $request->input('search')){
             $produk = Produk::where(function($query) use ($searchTerm) {
                 $query->where('nama', 'like', '%'.$searchTerm.'%');
-            })->paginate(10);
+            })->paginate(8);
         }
         return response()->view('admin.productList',
         [
@@ -151,7 +145,7 @@ class AdminController extends Controller{
             $produk->nama = $nama;
             $produk->desk = $desk;
             $produk->link = $link;
-            $produk->tipeimage = $tipegambar;
+            $produk->tipe_image = $tipegambar;
             $produk->image_path = $imageName;
             $produk->save();
 
