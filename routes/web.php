@@ -3,7 +3,13 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\UserOTP;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,12 +26,31 @@ Route::get('/phpinfo', function () {
     phpinfo();
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [UserController::class, 'guest'])->name('guest.index');
+Route::get('/links/{id}', [UserController::class,'link'])->name('user.links');
 
 Route::controller(AuthController::class)->group(function(){
     Route::get('/signUp','signUp')->name('signUp');
+    Route::get('/{user_id}/otp-verification', function ($user_id) {
+        $user = User::find($user_id);
+        return view('otpVerification', compact('user'));
+    })->name('otp-verification');
+    Route::post('/{user_id}/otp-validation', function ($user_id, Request $request) {
+        $otp = UserOTP::where('otp_code', $request->input('otp_code'))
+            ->where('user_id', $user_id)
+            ->where('expired_at', '>', now())
+            ->first();
+        if (!$otp) {
+            return redirect()->back()->withErrors([
+                'otp_code' => 'OTP CODE tidak ditemukan.'
+            ]);
+        }
+        $otp->user->email_verified_at = Carbon::now();
+        $otp->user->save();
+        Auth::login($otp->user);
+        UserOTP::where('user_id', $user_id)->delete();
+        return redirect(RouteServiceProvider::HOME);
+    })->name('otp.validation');
     Route::get('/logIn','logIn')->name('logIn');
     Route::post('/createData','createData')->name('createData');
     Route::post('/userData','userData')->name('userData');
@@ -34,7 +59,8 @@ Route::controller(AuthController::class)->group(function(){
 
 Route::group(['prefix' => 'user','middleware' => ['auth'], 'as', 'user'], function(){
     Route::get('/index',[UserController::class,'index'])->name('user.index');
-    Route::post('/index',[UserController::class,'comment'])->name('user.comment');
+    Route::post('/index/{produk:id}',[UserController::class,'comment'])->name('user.comment');
+    Route::post('/index/likes/{produk:id}',[UserController::class,'like'])->name('user.like');
 });
 
 Route::group(['prefix' => 'admin','middleware' => ['auth'], 'as', 'admin'], function(){
