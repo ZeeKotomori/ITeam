@@ -58,16 +58,16 @@
                         <h3 class="font-semibold text-xl">Product List</h3>
                     </div>
                     <div class="grid gap-6 gap-y-10 text-text md:grid-cols-2 hb:grid-cols-3 sm-max:grid-cols-1">
-                        @foreach ( $produk as $produk )
+                        @foreach ($produk as $item)
                         <div class="">
-                            <img class="rounded-lg w-full mb-1 shadow-xl" src="{{ asset('storage/post-images/' . $produk->image_path) }}" alt="Product Image">
-                            <h4 class="font-semibold text-xl mb-1">{{ $produk->nama }}</h4>
-                            <p>{{ $produk->desk }}</p>
+                            <img class="rounded-lg w-full mb-1 shadow-xl" src="{{ asset('storage/post-images/' . $item->image_path) }}" alt="Product Image">
+                            <h4 class="font-semibold text-xl mb-1">{{ $item->nama }}</h4>
+                            <p>{{ $item->desk }}</p>
                             <div class="flex gap-2 text-center mt-4">
-                                <a class="border-2 border-link p-2 rounded-md grow text-text hover:scale-105 duration-300" href="{{ route('admin.editProduct', $produk->id) }}">
+                                <a class="border-2 border-link p-2 rounded-md grow text-text hover:scale-105 duration-300" href="{{ route('admin.editProduct', $item->id) }}">
                                     <button type="button">EDIT</button>
                                 </a>
-                                <form class="flex justify-center" action="{{ route('admin.deleteProduct' , $produk->id) }}">
+                                <form class="flex justify-center" action="{{ route('admin.deleteProduct' , $item->id) }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit">
