@@ -178,7 +178,7 @@
 
         // Parallax
         const scroller = new LocomotiveScroll({});
-
+        
         // Ajax Likes
         $(document).ready(function() {
             $('[id^="like-button-"]').on('click', function() {

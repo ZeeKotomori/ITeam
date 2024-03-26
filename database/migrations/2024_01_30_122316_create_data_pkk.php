@@ -11,40 +11,49 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user', function (Blueprint $table) {
-            $table->id();
+        Schema::create('users', function (Blueprint $table) {
+            $table->uuid('id')->primary()->index();
             $table->string('email', 40)->unique()->min(10);
             $table->string('password')->min(8);
             $table->string('nama', 50);
             $table->enum('jenis_kelamin', ['Pria', 'Wanita', 'tidak ingin memberi tahu'])->default('tidak ingin memberi tahu');
             $table->string('no_telp', 15);
             $table->enum('role', ['admin', 'user'])->default('user');
+            $table->dateTime('email_verified_at')->nullable();
             $table->timestamps();
         });
 
         Schema::create('produk', function (Blueprint $table) {
             $table->id();
             $table->string('nama', 50)->unique();
-            $table->string('tipeimage', 20);
+            $table->string('tipe_image', 20);
             $table->string('image_path');
             $table->string('desk');
-            $table->string('link', 15);
+            $table->string('link');
             $table->timestamps();
         });
 
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
             $table->integer('produk_id');
-            $table->integer('user_id');
+            $table->string('user_id');
             $table->timestamps();
         });
 
         Schema::create('komentar', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->integer('user_id');
+            $table->unsignedBigInteger('produk_id');
+            $table->foreign('produk_id')->references('id')->on('produk')->onDelete('cascade');
+            $table->string('user_id');
             $table->text('komentar');
+            $table->timestamps();
+        });
+
+        Schema::create('user_otps', function (Blueprint $table) {
+            $table->id();
+            $table->string('user_id');
+            $table->integer('otp_code');
+            $table->dateTime('expired_at');
             $table->timestamps();
         });
     }
@@ -54,9 +63,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user');
+        Schema::dropIfExists('users');
         Schema::dropIfExists('produk');
         Schema::dropIfExists('likes');
         Schema::dropIfExists('komentar');
+        Schema::dropIfExists('user_otps');
     }
 };

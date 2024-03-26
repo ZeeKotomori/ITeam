@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\UserOTP;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -44,12 +48,12 @@ class AuthController extends Controller
     }
     public function createData(Request $request){
         $validatedData = $request->validate([
-            'email' => 'required|string|max:255|min:11|unique:user,email',
-            'password' => 'required|string|min:8',
+            'email' => 'required|string|max:255|min:11|unique:users,email',
+            'password' => 'required|string|min:8|regex:/^[a-zA-Z0-9]+$/',
             'nama' => 'required|string|min:3',
             'jenis_kelamin' => 'required|string',
-            'no_telp' => 'required|string|max:255|min:12|max:14',
-        ],[
+            'no_telp' => 'required|string|max:14|min:12',
+        ], [
             "email.required" => "Email must be filled in",
             "password.required" => "Password must be filled in",
             "nama.required" => "Name must be filled in",
@@ -58,13 +62,25 @@ class AuthController extends Controller
         ]);
 
         $hashedPassword = bcrypt($validatedData['password']);
-
-        $validatedData['password'] = $hashedPassword;
-
-        User::create($validatedData);
-        return redirect('/logIn');
+        // $uuid = Str::uuid();
+        $user = User::create([
+            'id' => Str::uuid(),
+            'nama' => $validatedData['nama'],
+            'email' => $validatedData['email'],
+            'password' => $validatedData['password'] = $hashedPassword,
+            'jenis_kelamin' => $validatedData['jenis_kelamin'],
+            'no_telp' => $validatedData['no_telp']
+        ]);
+        $user_id = $user->id;
+        UserOTP::create([
+            'user_id' => $user_id,
+            'otp_code' => rand(100000,999999),
+            'expired_at' => Carbon::now()->addMinutes(5)
+        ]);
+        event(new Registered($user));
+        return redirect()->route('otp-verification', ['user_id' => $user_id]);
     }
-    public function logOut(Request $request){
+        public function logOut(Request $request){
         Auth::logout();
         return redirect()->route('logIn');
     }
