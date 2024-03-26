@@ -112,6 +112,7 @@
                             @endforeach
                         </table>
                     </div>
+                    {{ $user->appends(['searchTerm' => $searchTerm])->links('pagination.default') }}
                 </div>
             </div>
         </div>
