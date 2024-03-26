@@ -26,20 +26,24 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ];
-
+        $user = User::where('email', $data['email'])->first();
         if(Auth::attempt($data)){
-            $role = Auth::user()->role;
-            if($role=='admin'){
-                return redirect()->route('admin.dashboard');
-            }else if($role=='user'){
-                return redirect()->route('user.index');
-            }else{
-                return redirect()->route('user.index');
+            if($user && $user->email_verified_at){
+                $role = Auth::user()->role;
+                if($role=='admin'){
+                    return redirect()->route('admin.dashboard');
+                }else if($role=='user'){
+                    return redirect()->route('user.index');
+                }else{
+                    return redirect()->route('user.index');
+                }
+                }else{
+                return back()->withErrors([
+                    'email' => 'The provided credentials do not match our records.',
+                ])->onlyInput('email');
             }
-        }else{
-            return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.',
-            ])->onlyInput('email');
+        } else{
+            return back();
         };
     }
 
