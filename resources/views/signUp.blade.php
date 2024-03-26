@@ -26,14 +26,14 @@
                             <div class="text-red-500">{{ $message }}</div>
                             @enderror
                         </label>
-                        <Input class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" type="text" name="email" id="email" autocomplete="off"></Input>
+                        <Input value="{{ old('email') }}" class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" type="text" name="email" id="email" autocomplete="off"></Input>
                     </div>
                     <div class="flex flex-col pt-4 md:pt-3 md:w-80">
                         <label for="nama">Nama @error('nama')
                             <div class="text-red-500">{{ $message }}</div>
                             @enderror
                         </label>
-                        <Input class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" type="text" name="nama" id="nama" autocomplete="off"></Input>
+                        <Input  value="{{ old('nama') }}"class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" type="text" name="nama" id="nama" autocomplete="off"></Input>
                     </div>
                     <div class="sm:flex flex-col pt-4 md:pt-3">
                         <label for="password">Password @error('password')
@@ -46,7 +46,7 @@
                         <label for="jenis_kelamin">Gender @error('jenis_kelamin')
                             <div class="text-red-500">{{ $message }}</div>
                             @enderror</label>
-                        <select class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" name="jenis_kelamin" id="jenis_kelamin" autocomplete="off">
+                        <select value="{{ old('jenis_kelamin') }}" class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" name="jenis_kelamin" id="jenis_kelamin" autocomplete="off">
                             <option value="" default hidden></option>
                             <option class="bg-primary" value="Pria">Pria</option>
                             <option class="bg-primary" value="Wanita">Wanita</option>
@@ -57,12 +57,12 @@
                         <label for="no_telp">Phone @error('no_telp')
                             <div class="text-red-500">{{ $message }}</div>
                             @enderror</label>
-                        <Input class="py-2 bg-transparent border-b-2 border-form outline-0 w-full no-inner-spin-button" type="number" name="no_telp" id="no_telp" autocomplete="off"></Input>
+                        <Input value="{{ old('no_telp') }}" class="py-2 bg-transparent border-b-2 border-form outline-0 w-full no-inner-spin-button" type="number" name="no_telp" id="no_telp" autocomplete="off"></Input>
                     </div>
                     <div class="flex justify-between pt-8">
                         <button class="bg-line rounded-xl w-24 h-10 shadow-sm" type="submit">Sign Up</button>
                         <span class="w-32 text-sm text-right">have an account? <a class="text-link underline" href="/logIn">login</a></span>
-                        </div>
+                    </div>
                     </form>
                 </div>
             </div>
