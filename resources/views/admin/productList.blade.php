@@ -6,6 +6,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
     <script src="https://unpkg.com/feather-icons"></script>
+    <title>ITeam - Product List</title>
 </head>
 <body class="bg-gradient-dark">
     <div class="max-w-[95%] m-auto flex">
