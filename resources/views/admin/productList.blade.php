@@ -40,7 +40,7 @@
                 <h3 class="font-bold text-xl">Product List</h3>
                 <div class="flex items-center gap-x-8">
                     <form class="hidden items-center hb:flex" action="{{ route('admin.listProduct') }}" method="GET">
-                        <input class="w-2/3 p-2 bg-transparent border-2 rounded-md outline-none" placeholder="Search here" type="search" name="search" autocomplete="off">
+                        <input class="2/3 p-2 bg-transparent border-2 rounded-md outline-none" placeholder="Search here" type="search" name="search" autocomplete="off">
                         <button class="bg-link rounded-md ml-4 w-9 h-9 hover:bg-link/80 duration-300" type="submit"><i class="w-9 text-text" data-feather="search"></i></button>
                     </form>
                     <div class="w-8 h-8 hidden hb-max:block">
