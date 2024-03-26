@@ -24,8 +24,7 @@
                 <a class="text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="#">Home</a>
                 <a class="text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="#product">Product</a>
                 <a class="text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="#aboutUs">About Us</a>
-                <a class="hb:hidden hb-max:pt-3 text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="{{ route('logIn') }}">Log In</a>
-                <a class="hb:hidden text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="{{ route('signUp') }}">Sign Up</a>
+                <a class="hb:hidden hb-max:pt-3 text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="{{ route('logOut') }}">Log Out</a>
             </div>
             <div class="hidden hb:flex items-center gap-x-8">
                 <a class="text-text text-sm font-semibold border border-blue-600 p-1.5 px-4 rounded-md bg-blue-600 duration-300 hover:pulse focus:pulse" href="{{ route( 'logOut' )}}">Log Out</a>
@@ -45,14 +44,14 @@
         <div class="grid gap-8 sm-card:grid-cols-2 md-card:grid-cols-3 lg-card:grid-cols-4">
             @foreach ( $produk as $produk )
             <div class="hidden top-0 bottom-0 right-0 left-0 bg-slate-950/80 z-10" id="overlay"></div>
-            <div class="commentSection hidden top-0 w-screen h-screen z-20 bg-slate-900 text-text overflow-y-auto max-h-screen hb:w-[70%] hb:h-auto hb:top-1/2 hb:left-1/2 hb:-translate-x-1/2 hb:-translate-y-1/2 hb:shadow-2xl hb:shadow-white/5 hb:rounded-md" id="{{$produk->id}}">
+            <div class="commentSection hidden top-0 right-0 w-screen h-screen z-20 bg-slate-900 text-text overflow-y-auto max-h-screen hb:w-[70%] hb:h-auto hb:top-1/2 hb:left-1/2 hb:-translate-x-1/2 hb:-translate-y-1/2 hb:shadow-2xl hb:shadow-white/5 hb:rounded-md" id="{{$produk->id}}">
                 <div class="hb:grid hb:grid-cols-2 hb:grid-rows-[55px_auto_auto]">
                     <img class="w-full h-full row-span-3 bg-indigo-950/40 hb-max:hidden" src="{{ asset('storage/post-images/' . $produk->image_path) }}" alt="">
                     <div class="sticky top-0 left-0 right-0 backdrop-blur-lg hb:static">
                         <div class="w-10/12 m-auto flex justify-end items-center py-3 md:w-9/12 hb:w-full hb:px-[5%]">
                             <div class="w-6 h-0"></div>
                             <h2 class="grow text-center font-semibold text-lg">Comment</h2>
-                            <button id="close"><i data-feather="x"></i></button>
+                            <button onclick="closeComment(this);" data-id="{{ $produk->id }}"><i data-feather="x"></i></button>
                         </div>
                         <div class="h-[1px] opacity-30 shade-c mb-3"></div>
                     </div>
@@ -135,7 +134,6 @@
     </div>
     <div class="sirkel -z-10 absolute w-[600px] h-[600px] -top-10 -left-[400px] hb:w-[1000px] hb:h-[1000px] hb:-top-96 hb:-left-[700px]"></div>
     <div class="sirkel-2 -z-10 absolute w-[900px] h-[900px] top-[200px] -right-[500px]"></div>
-    <div class="sirkel -z-10 absolute w-[700px] h-[700px] top-[45%] -right-[420px] hb:top-[60%]"></div>
     <div class="sirkel-2 -z-10 absolute w-[600px] h-[600px] bottom-[5%] -left-[320px] opacity-65"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -156,13 +154,13 @@
         });
 
         // Comment Section
-        const comment = document.querySelectorAll('.comment');
-        const closeBtn = document.getElementById('close');
         const overlay = document.getElementById('overlay');
 
         function openComment(open) {
             const id = open.getAttribute('data-id');
             const commentSection = document.getElementById(id);
+            const body = document.body;
+            body.style.overflowY = 'hidden';
             commentSection.classList.remove('hidden');
             commentSection.classList.add('fixed');
             overlay.classList.remove('hidden');
@@ -172,6 +170,8 @@
         function closeComment(close) {
             const id = close.getAttribute('data-id');
             const commentSection = document.getElementById(id);
+            const body = document.body;
+            body.style.overflowY = 'auto';
             commentSection.classList.remove('fixed');
             commentSection.classList.add('hidden');
             overlay.classList.remove('fixed');
@@ -180,6 +180,8 @@
 
         // Parallax
         const scroller = new LocomotiveScroll({});
+
+        // Ajax Likes
         $(document).ready(function() {
             $('[id^="like-button-"]').on('click', function() {
                 var formId = $(this).closest('form').attr('id');

@@ -62,13 +62,13 @@
                 <form class="grid grid-cols-2 grid-rows-[42px_auto_auto_50px_auto] gap-4 gap-x-12  rounded-lg py-8 h-[32rem] md-max:grid-cols-1 md-max:grid-rows-[auto_42px_auto_auto_auto] md-max:h-fit" action="{{ route("admin.upImg") }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="grid place-content-center row-span-4 h-full bg-form rounded-md md-max:order-1 md-max:row-span-1 md-max:h-56">
-                        <input class="text-transparent file:w-full file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-link file:text-text file:hover:bg-indigo-600/70" type="file" id="files" name="image">
+                        <input class="text-transparent file:w-full file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-link file:text-text file:hover:bg-link/80" type="file" id="files" name="image" accept="image/png, image/jpeg, image/jpg">
                         <label class="cursor-pointer text-center mt-2" for="files" id="imgUpload">Tidak ada file yang dipilih</label>
                     </div>
-                    <input class="h-fit p-2 bg-transparent border-b-2 border-link outline-none md-max:order-2" placeholder="Title" type="text" name="nama">
-                    <textarea class="h-full p-2 bg-transparent border-b-2 border-link outline-none resize-none md-max:order-3" placeholder="Description" rows="8" cols="50" id="textArea" name="desk"></textarea>
-                    <input class="h-fit p-2 bg-transparent border-b-2 border-link outline-none md-max:order-4" placeholder="Link" type="text" name="link">
-                    <button class="bg-link p-2 px-4 rounded-lg md-max:order-5 hover:bg-indigo-600/70" type="submit">Upload</button>
+                    <input class="h-fit p-2 bg-transparent border-b-2 border-link outline-none md-max:order-2" placeholder="Nama" type="text" name="nama" autocomplete="off">
+                    <textarea class="h-full p-2 bg-transparent border-b-2 border-link outline-none resize-none md-max:order-3" placeholder="Desk" rows="8" cols="50" id="textArea" name="desk"></textarea>
+                    <input class="h-fit p-2 bg-transparent border-b-2 border-link outline-none md-max:order-4" placeholder="Link" type="text" name="link" autocomplete="off">
+                    <button class="bg-link p-2 px-4 rounded-lg md-max:order-5 hover:bg-link/80 duration-300" type="submit">Upload</button>
                 </form>
             </div>
         </div>

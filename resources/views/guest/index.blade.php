@@ -135,7 +135,6 @@
     </div>
     <div class="sirkel -z-10 absolute w-[600px] h-[600px] -top-10 -left-[400px] hb:w-[1000px] hb:h-[1000px] hb:-top-96 hb:-left-[700px]"></div>
     <div class="sirkel-2 -z-10 absolute w-[900px] h-[900px] top-[200px] -right-[500px]"></div>
-    <div class="sirkel -z-10 absolute w-[700px] h-[700px] top-[45%] -right-[420px] hb:top-[60%]"></div>
     <div class="sirkel-2 -z-10 absolute w-[600px] h-[600px] bottom-[5%] -left-[320px] opacity-65"></div>
     <script>
         // Icon
@@ -179,6 +178,8 @@
 
         // Parallax
         const scroller = new LocomotiveScroll({});
+        
+        // Ajax Likes
         $(document).ready(function() {
             $('[id^="like-button-"]').on('click', function() {
                 var formId = $(this).closest('form').attr('id');

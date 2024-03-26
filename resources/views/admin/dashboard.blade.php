@@ -12,11 +12,11 @@
     <div class="max-w-[95%] m-auto flex">
         <aside class="hamberg bg-gradient-to-t from-primary to-link flex flex-col justify-start w-72 h-dashboard my-8 rounded-lg hb-max:fixed hb-max:w-60 hb-max:-translate-x-80 z-10 duration-300">
             <img src="{{asset("svg/title.svg")}}" class="mx-12 mt-6 mb-3" alt="ITeam Logo">
-            <div class="h-0.5 shade-c opacity-15 my-4"></div>
+            <div class="h-0.5 shade-c opacity-15 mt-4"></div>
             <ul>
-                <form class="flex items-center justify-center hb:hidden" id="search" action="{{ route('admin.dashboard') }}" method="GET">
-                    <input class="w-2/3 p-2 bg-transparent border-2 rounded-md outline-none" placeholder="Search here" type="search" name="search">
-                    <button class="bg-link rounded-md ml-4 w-9 h-9" type="submit"><i class="w-9 text-text" data-feather="search"></i></button>
+                <form class="flex items-center justify-center my-8 hb:hidden" id="search" action="{{ route('admin.dashboard') }}" method="GET">
+                    <input class="w-2/3 p-2 bg-transparent border-2 rounded-md outline-none text-text" placeholder="Search here" type="search" name="search" autocomplete="off">
+                    <button class="bg-link rounded-md ml-4 w-9 h-9 hover:bg-link/70 duration-300" type="submit"><i class="w-9 text-text" data-feather="search"></i></button>
                 </form>
                 <a href="" class="bg-primary rounded-lg m-3 flex items-center text-text">
                     <i data-feather="trending-up" class="m-4"></i>
@@ -31,15 +31,15 @@
                     <span class="font-semibold text-lg py-4">Add Product</span>
                 </a>
             </ul>
-            <a href="{{ route( "logOut" )}}" class="bg-link rounded-lg mx-3 mb-3 mt-auto p-2 flex justify-center text-text font-semibold"><p>Log Out</p></a>
+            <a href="{{ route( "logOut" )}}" class="bg-link hover:bg-link/80 duration-300 rounded-lg mx-3 mb-3 mt-auto p-2 flex justify-center text-text font-semibold"><p>Log Out</p></a>
         </aside>
         <div class="text-text h-dashboard ml-8 my-8 w-full hb-max:ml-0">
             <div class="flex items-baseline justify-between">
                 <h3 class="font-bold text-xl">Dashboard</h3>
                 <div class="flex items-center gap-x-8">
                     <form class="hidden items-center hb:flex" action="{{ route('admin.dashboard') }}" method="GET">
-                        <input class="p-2 bg-transparent border-2 rounded-md outline-none" placeholder="Search here" type="search" name="search">
-                        <button class="bg-link rounded-md ml-4 w-9 h-9" type="submit"><i class="w-9" data-feather="search"></i></button>
+                        <input class="p-2 bg-transparent border-2 rounded-md outline-none" placeholder="Search here" type="search" name="search" autocomplete="off">
+                        <button class="bg-link rounded-md ml-4 w-9 h-9 hover:bg-link/80 duration-300" type="submit"><i class="w-9" data-feather="search"></i></button>
                     </form>
                     <div class="w-8 h-8 hidden hb-max:block">
                         <button class="text-white" id="hamburger">
@@ -104,7 +104,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit">
-                                            <i class="m-auto text-text bg-primary w-8 h-8 p-1 rounded-md drop-shadow-2xl" data-feather="trash"></i>
+                                            <i class="m-auto text-text w-8 h-8 p-1 rounded-md drop-shadow-2xl hover:drop-shadow-[0_1px_5px_rgba(255,255,255,0.3)] hover:scale-110 duration-300" data-feather="trash"></i>
                                         </button>
                                     </form>
                                 </td>
