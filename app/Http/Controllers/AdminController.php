@@ -15,7 +15,7 @@ class AdminController extends Controller{
     $countLikes = Likes::count();
     $produk = Produk::count();
     $userlist = User::where('role', 'user')->count();
-    $user = User::where('role', 'user')->get();
+    $user = User::where('role', 'user')->paginate(5)->onEachSide(1);
     if ($searchTerm = $request->input('search')) {
         $user = User::where(function($query) use ($searchTerm) {
                         $query->where('nama', 'like', '%'.$searchTerm.'%')
@@ -31,11 +31,17 @@ class AdminController extends Controller{
         'user' => $user,
         'likes' => $countLikes,
         'produk' => $produk,
-        'userlist' => $userlist
+        'userlist' => $userlist,
+        'searchTerm' => $searchTerm
     ])->header('Cache-Control', 'no-cache, no-store, must-revalidate')->header('Pragma', 'no-cache')->header('Expires', '0');
     }
     public function delete(User $User){
         User::destroy($User->id);
+
+        if($User){
+            $User->likes()->delete();
+        }
+
         return back();
     }
     public function editProduct(Produk $produk){
@@ -86,7 +92,6 @@ class AdminController extends Controller{
         $produkEdit->image_path = $imageName;
         $produkEdit->save();
 
-        // dd($produkEdit);
         return redirect()->route('admin.listProduct');
     }
     public function addProduct(){
@@ -109,6 +114,11 @@ class AdminController extends Controller{
             if ($produk->image_path) {
                 Storage::disk('public')->delete($produk->image_path);
             }
+
+            if ($produk){
+                $produk->likes()->delete();
+            }
+
         return back();
     }
     public function upImg(Request $request){
