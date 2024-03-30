@@ -18,7 +18,7 @@ class AuthController extends Controller
 
     public function userData(Request $request){
         $request->validate([
-            'email' => 'required|string|max:255|min:11',
+            'email' => 'required|string|max:255|min:11|email',
             'password' => 'required|string|min:8',
         ]);
 
@@ -52,7 +52,7 @@ class AuthController extends Controller
     }
     public function createData(Request $request){
         $validatedData = $request->validate([
-            'email' => 'required|string|max:255|min:11|unique:users,email',
+            'email' => 'required|string|max:255|min:11|email|unique:users,email',
             'password' => 'required|string|min:8|regex:/^[a-zA-Z0-9]+$/',
             'nama' => 'required|string|min:3',
             'jenis_kelamin' => 'required|string',
