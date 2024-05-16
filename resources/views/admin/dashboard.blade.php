@@ -30,6 +30,10 @@
                     <i data-feather="upload" class="m-4"></i>
                     <span class="font-semibold text-lg py-4">Add Product</span>
                 </a>
+                <a href="{{ route('user.index') }}" class="hover:bg-secondary rounded-lg m-3 flex items-center text-slate-300 hover:text-text opacity-60 hover:opacity-100 duration-300">
+                    <i data-feather="home" class="m-4"></i>
+                    <span class="font-semibold text-lg py-4">Home Page</span>
+                </a>
             </ul>
             <a href="{{ route( "logOut" )}}" class="bg-link hover:bg-link/80 duration-300 rounded-lg mx-3 mb-3 mt-auto p-2 flex justify-center text-text font-semibold"><p>Log Out</p></a>
         </aside>
@@ -99,12 +103,19 @@
                                 <td class="p-4">{{ $data->nama }}</td>
                                 <td class="p-4">{{ $data->jenis_kelamin }}</td>
                                 <td class="p-4">{{ $data->no_telp }}</td>
-                                <td class="p-4">
-                                    <form class="flex justify-center" action="{{ route('admin.delete' , $data->id)}}">
+                                <td class="p-4 flex justify-center col-span-2">
+                                    <form class="flex px-2 justify-center col-span-2" action="{{ route('admin.delete' , $data->id)}}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit">
                                             <i class="m-auto text-text w-8 h-8 p-1 rounded-md drop-shadow-2xl hover:drop-shadow-[0_1px_5px_rgba(255,255,255,0.3)] hover:scale-110 duration-300" data-feather="trash"></i>
+                                        </button>
+                                    </form>
+                                    <form class="flex px-2 justify-center" action="{{ route('admin.makeAdmin' , $data->id)}}">
+                                        @csrf
+                                        <button class="flex flex-col justify-center items-center m-auto text-text w-auto h-auto p-1 rounded-md drop-shadow-2xl hover:drop-shadow-[0_1px_5px_rgba(255,255,255,0.3)] hover:scale-110 duration-300" type="submit flex">
+                                            <i data-feather="user-check"></i>
+                                            <p>Make As Admin</p>
                                         </button>
                                     </form>
                                 </td>

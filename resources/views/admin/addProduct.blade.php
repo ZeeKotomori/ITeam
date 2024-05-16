@@ -26,6 +26,10 @@
                     <i data-feather="upload" class="m-4"></i>
                     <span class="font-semibold text-lg py-4">Add Product</span>
                 </a>
+                <a href="{{ route('user.index') }}" class="hover:bg-secondary rounded-lg m-3 flex items-center text-slate-300 hover:text-text opacity-60 hover:opacity-100 duration-300">
+                    <i data-feather="home" class="m-4"></i>
+                    <span class="font-semibold text-lg py-4">Home Page</span>
+                </a>
             </ul>
             <a href="{{ route("logOut") }}" class="bg-link rounded-lg mx-3 mb-3 mt-auto p-2 flex justify-center text-text font-semibold">
                 <p>Log Out</p>
@@ -114,7 +118,7 @@
             Button.addEventListener('click', () => {
                 const toast = Button.parentElement;
                 toast.classList.add('opacity-0');
-                
+
                 setInterval(() => {
                     toast.classList.add('hidden');
                 }, 300);
