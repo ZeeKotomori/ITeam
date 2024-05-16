@@ -162,4 +162,11 @@ class AdminController extends Controller{
             return back();
         }
     }
+
+    public function makeAdmin($id){
+        $user = User::find($id);
+        $user->role = "admin";
+        $user->save();
+        return back();
+    }
 }
