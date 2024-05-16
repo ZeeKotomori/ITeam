@@ -2,23 +2,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Produk;
 use App\Models\Likes;
 use App\Models\Komentar;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
-    public function guest(){
-        $produk = Produk::all();
-        return response()->view('guest.index',
-        [
-            'produk' => $produk
-        ]);
-    }
-
     public function index(){
         $produk = Produk::all();
         return response()->view('userGuest.index',
@@ -59,15 +48,8 @@ class UserController extends Controller
         $like->save();
     }
 
-    // Mengambil jumlah like terkini
     $likesCount = Likes::where('produk_id', $produk->id)->count();
 
-    // Mengembalikan respons dalam format JSON
     return response()->json(['likesCount' => $likesCount, 'productId' => $produk->id]);
-    }
-
-    public function link($id){
-        $produk = Produk::findOrfail($id);
-        return redirect()->awas($produk->url);
     }
 }

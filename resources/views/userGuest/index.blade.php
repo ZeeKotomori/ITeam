@@ -21,13 +21,29 @@
             </button>
             <div class="hamberg hb-max:absolute hb-max:-z-10 hb-max:flex hb-max:flex-col md-max:-right-32 md:hb-max:-right-32 hb-max:top-24 hb-max:gap-y-3 hb-max:bg-gradient-dark hb-max:p-4 hb-max:items-start hb-max:rounded-lg hb-max:border hb-max:border-slate-50/10
                 hb:flex justify-start items-center m-auto gap-x-20 duration-300" id="hamburger">
-                <a class="text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="#">Home</a>
-                <a class="text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="#product">Product</a>
-                <a class="text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="#aboutUs">About Us</a>
-                <a class="hb:hidden hb-max:pt-3 text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="{{ route('logOut') }}">Log Out</a>
+                @auth
+                    <a class="text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="#">Home</a>
+                    <a class="text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="#product">Product</a>
+                    <a class="text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="#aboutUs">About Us</a>
+                    @if(Auth::check() && Auth::user()->role == 'admin')
+                        <a class="text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="admin/dashboard">Dashboard</a>
+                    @endif
+                    <a class="hb:hidden hb-max:pt-3 text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="{{ route('logOut') }}">Log Out</a>
+                @else
+                    <a class="text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="#">Home</a>
+                    <a class="text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="#product">Product</a>
+                    <a class="text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="#aboutUs">About Us</a>
+                    <a class="hb:hidden hb-max:pt-3 text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="{{ route( 'logIn' )}}">Log In</a>
+                    <a class="hb:hidden hb-max:pt-3 text-text text-sm font-semibold opacity-60 hover:opacity-100 duration-300 hover:text-shadow-white" href="{{ route( 'signUp' )}}">Sign Up</a>
+                @endauth
             </div>
             <div class="hidden hb:flex items-center gap-x-8">
-                <a class="text-text text-sm font-semibold border border-blue-600 p-1.5 px-4 rounded-md bg-blue-600 duration-300 hover:pulse focus:pulse" href="{{ route( 'logOut' )}}">Log Out</a>
+                @auth
+                    <a class="text-text text-sm font-semibold border border-blue-600 p-1.5 px-4 rounded-md bg-blue-600 duration-300 hover:pulse focus:pulse" href="{{ route( 'logOut' )}}">Log Out</a>
+                @else
+                    <a class="text-text text-sm font-semibold border-2 border-white p-1.5 px-4 rounded-md bg-transparent" href="{{ route( 'logIn' )}}">Log In</a>
+                    <a class="text-text text-sm font-semibold border border-blue-600 p-1.5 px-4 rounded-md bg-blue-600 duration-300 hover:pulse focus:pulse" href="{{ route( 'signUp' )}}">Sign Up</a>
+                @endauth
             </div>
         </div>
     </nav>
@@ -84,7 +100,8 @@
                     <h3 class="font-semibold">{{ $produk->nama }}</h3>
                     <p class="opacity-70 py-2">{{ $produk->desk }}</p>
                     <div class="grid grid-cols-5 mt-2 gap-2">
-                        <form class="col-span-2 p-2 rounded-md duration-300 bg-red-500 hover:bg-red-800" action="{{ route("user.like", $produk->id) }}" method="POST"  id="like-form-{{ $produk->id }}" >
+                        @auth
+                        <form class="col-span-2 p-2 rounded-md duration-300 bg-red-500 hover:bg-red-800" action="{{ route("user.like", $produk->id) }}" method="POST" id="like-form-{{ $produk->id }}" >
                             @csrf
                             <div class="flex">
                                 <button id="like-button-{{ $produk->id }}" data-id="{{ $produk->id }}" type="button" value="add" class="w-full flex gap-x-[30%]">
@@ -94,6 +111,18 @@
                             </div>
                         </form>
                         <button onclick="openComment(this);" data-id="{{ $produk->id }}" class="comment w-full text-center col-span-3 p-2 rounded-md duration-300 bg-link hover:bg-indigo-600/80">Comment</button>
+                        @else
+                        <a href="{{ route('logIn') }}" class="col-span-2 p-2 rounded-md duration-300 bg-red-500 hover:bg-red-800" id="like-form-{{ $produk->id }}">
+                            @csrf
+                            <div class="flex">
+                                <button id="like-button-{{ $produk->id }}" data-id="{{ $produk->id }}" type="button" value="add" class="w-full flex gap-x-[30%]">
+                                    <i data-feather="heart"></i>
+                                    <p id="likesCount-{{ $produk->id }}">{{ count($produk->likes) }}</p>
+                                </button>
+                            </div>
+                        </a>
+                        <button onclick="openComment(this);" data-id="{{ $produk->id }}" class="comment w-full text-center col-span-3 p-2 rounded-md duration-300 bg-link hover:bg-indigo-600/80">Comment</button>
+                        @endauth
                         <a class="col-span-5 p-2 rounded-md duration-300 bg-indigo-700 hover:bg-indigo-800" href="{{ $produk->link }}"><button class="w-full flex justify-center gap-x-2"> Link <i data-feather="arrow-right"></i></button></a>
                     </div>
                 </div>

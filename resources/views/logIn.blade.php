@@ -26,7 +26,7 @@
                                 <div class="text-red-500">{{ $message }}</div>
                                 @enderror
                             </label>
-                            <Input class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" type="text" name="email" id="email" autocomplete="off"></Input>
+                            <Input class="py-2 bg-transparent border-b-2 border-form outline-0 w-full" onchange="" type="text" name="email" id="email" autocomplete="off"></Input>
                         </div>
                         <div class="sm:flex flex-col pt-4 md:pt-3">
                             <label for="password">Password @error('password')
@@ -37,7 +37,9 @@
                         </div>
                         <div class="flex justify-between pt-8">
                             <button class="bg-line rounded-xl w-24 h-10 shadow-sm" type="submit">Log In</button>
-                            <span class="w-44 text-sm text-right">don't have an account? <a class="text-link underline" href="/signUp">Sign Up</a></span>
+                            <span class="flex flex-col w-44 text-sm text-right">don't have an account?
+                                <a class="text-link underline" href="/signUp">Sign Up</a>
+                            </span>
                         </div>
                     </form>
                 </div>
