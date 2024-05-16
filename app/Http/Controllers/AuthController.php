@@ -2,17 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Auth\Events\Registered;
+use App\Models\Produk;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserOTP;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OtpMail;
 
 class AuthController extends Controller
 {
-    public function login(Request $request){
+    public function guest(Request $Request){
+        dd($Request);
+        $produk = Produk::all();
+        if($Request->session('guest')){
+            return response()->view('guest.index',
+            [
+                'produk' => $produk
+            ]);
+        }else{
+            return response()->view('logIn');
+        }
+    }
+
+    public function tryGuest(){
+        Auth::user('guest');
+        return redirect()->route('guest');
+    }
+
+    public function login(){
         return view('logIn');
     }
 
@@ -26,24 +46,29 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ];
+
         $user = User::where('email', $data['email'])->first();
         if(Auth::attempt($data)){
             if($user && $user->email_verified_at){
-                $role = Auth::user()->role;
-                if($role=='admin'){
-                    return redirect()->route('admin.dashboard');
-                }else if($role=='user'){
-                    return redirect()->route('user.index');
-                }else{
-                    return redirect()->route('user.index');
-                }
-                }else{
+                $role = $user->role;
+                    if($role=='admin'){
+                        $request->session()->regenerate();
+                        return redirect()->intended('/');
+                    }else if($role=='user'){
+                        $request->session()->regenerate();
+                        return redirect()->intended('/');
+                    }else{
+                        return redirect()->intended()->route('/');
+                    }
+            }else{
                 return back()->withErrors([
-                    'email' => 'The provided credentials do not match our records.',
+                    'email' => 'Your email has been registered, not yet verified'
                 ])->onlyInput('email');
             }
-        } else{
-            return back();
+        }else{
+            return back()->withErrors([
+                'email' => 'Your email is not registered yet'
+            ])->onlyInput('email');
         };
     }
 
@@ -66,7 +91,6 @@ class AuthController extends Controller
         ]);
 
         $hashedPassword = bcrypt($validatedData['password']);
-        // $uuid = Str::uuid();
         $user = User::create([
             'id' => Str::uuid(),
             'nama' => $validatedData['nama'],
@@ -76,16 +100,23 @@ class AuthController extends Controller
             'no_telp' => $validatedData['no_telp']
         ]);
         $user_id = $user->id;
-        UserOTP::create([
+        $userOtp = UserOTP::create([
             'user_id' => $user_id,
             'otp_code' => rand(100000,999999),
             'expired_at' => Carbon::now()->addMinutes(5)
         ]);
-        event(new Registered($user));
+        $Otp = $userOtp->otp_code;
+        $email = $user->email;
+        $subject = "OTP Verification, From Iteam";
+        $massage = `Hello $user->email, Welcome to our website`;
+        Mail::to($email)->send(new OtpMail($Otp, $subject, $massage));
         return redirect()->route('otp-verification', ['user_id' => $user_id]);
     }
-        public function logOut(Request $request){
+
+    public function logOut(Request $request){
         Auth::logout();
-        return redirect()->route('logIn');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('user.index');
     }
 }
